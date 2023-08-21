@@ -1,0 +1,611 @@
+Code:
+AppointmentForm Code:
+Public Class AppointmentForm
+
+    Private DB As New DBAccessClass
+
+    Private Sub AppointmentForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+        SearchAppointment(PatientIDTextBox.Text, PhoneTextBox.Text)
+        EditToolStripMenuItem.Enabled = False
+        If UserLoginForm.RoleLabel.Text = "Receptionist" Then
+            EditToolStripMenuItem.Visible = False
+
+        End If
+    End Sub
+
+    Private Sub PatientIDTextBox_TextChanged(sender As Object, e As KeyEventArgs) Handles PatientIDTextBox.KeyUp, PhoneTextBox.KeyUp
+        SearchAppointment(PatientIDTextBox.Text, PhoneTextBox.Text)
+    End Sub
+
+    Friend Sub SearchAppointment(PatientID As String, Phone As String)
+        DB.AddParam("@PatientID ", PatientID & "%")
+        DB.AddParam("@DateOfVisit", Phone & "%")
+        DB.ExecuteQuery("Select A_ID, Date_of_Visit, Reason, Type, a.P_ID, E_ID As Doctor_ID, Status, First_Name, Last_Name, Phone, Gender, DOB, Blood_Group, Occupation, Previous_Medical_Conditions, Allergies, Current_Medication, Past_surgeries, Social_Habits from Appointment a join Patient p on a.P_ID = p.P_ID where a.P_ID LIKE ? AND Phone LIKE ?;")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+
+        End If
+
+        DBDataGridView.DataSource = DB.DBDataTable
+        RecordNumberToolStripStatusLabel.Text = "Number of Appointments:" & DB.RecordCount
+    End Sub
+
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        NewAppointment.ShowDialog()
+    End Sub
+
+    Private Sub DBDataGridView_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DBDataGridView.CellClick
+
+        If e.RowIndex < 0 Or e.RowIndex = DBDataGridView.Rows.Count - 1 Then
+            AppointmentIDTextBox.Clear()
+            EditToolStripMenuItem.Enabled = False
+        Else
+            AppointmentIDTextBox.Text = DBDataGridView.Rows(e.RowIndex).Cells(0).Value
+            EditToolStripMenuItem.Enabled = True
+        End If
+
+    End Sub
+
+    Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click
+        If UserLoginForm.RoleLabel.Text = "Receptionist" Then
+            EditToolStripMenuItem.Enabled = False
+        End If
+        EditAppointment.ShowDialog()
+    End Sub
+
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs)
+        Dim Status As String = "Inactive"
+        If String.IsNullOrEmpty(AppointmentIDTextBox.Text) Then
+            MessageBox.Show("Please select a appointment to delete")
+            Exit Sub
+        Else
+            'delete the selected customer
+            Dim aDialog As DialogResult
+            aDialog = MessageBox.Show("Do you really want to delete appointment# " & AppointmentIDTextBox.Text, "Delete Confirmation", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
+
+            If aDialog = vbYes Then
+                DB.AddParam("@status", Status)
+                DB.AddParam("@appointmentid", AppointmentIDTextBox.Text)
+                DB.ExecuteQuery("UPDATE Appointment SET Status = ? WHERE A_ID =?")
+                If DB.Exception <> String.Empty Then
+                    MessageBox.Show(DB.Exception)
+                    Exit Sub
+
+                End If
+
+                MessageBox.Show("The appointment#" & AppointmentIDTextBox.Text & " is deleted successfully.")
+                AppointmentIDTextBox.Text = String.Empty
+                SearchAppointment(PatientIDTextBox.Text, PhoneTextBox.Text)
+
+            End If
+
+        End If
+
+    End Sub
+End Class
+
+New Appointment Form Code:
+
+Imports System.Text.RegularExpressions
+
+Public Class NewAppointment
+
+    Private DB As New DBAccessClass
+
+    Private Sub NewAppointment_Load(sender As Object, e As EventArgs) Handles Me.Load
+        'dov  limit to today - no time only date
+        DOVDateTimePicker.Value = Today.Date
+        EIDTextBox.Text = UserLoginForm.EIDLabel.Text
+        UserNameLabel.Text = GetUserName(EIDTextBox.Text)
+        RoleLabel.Text = GetRole(EIDTextBox.Text)
+
+        DB.ExecuteQuery("SELECT D.E_ID FROM Doctor D JOIN Employee E ON D.E_ID = E.E_ID WHERE E.Active = 1 AND Current_Available = 'Yes';")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+        DoctorComboBox.DataSource = DB.DBDataTable
+        'To display in the form
+        DoctorComboBox.DisplayMember = "E_ID"
+        DoctorComboBox.SelectedIndex = -1
+
+    End Sub
+    Private Sub EmployeeIDTextBox_TextChanged(sender As Object, e As KeyEventArgs) Handles EIDTextBox.KeyUp
+        UserNameLabel.Text = GetUserName(EIDTextBox.Text)
+        RoleLabel.Text = GetRole(EIDTextBox.Text)
+    End Sub
+
+    Private Function GetRole(text As String) As String
+        Dim Role As String = "Employee"
+        If text = String.Empty Then
+            Role = String.Empty
+            Return Role
+            Exit Function
+        End If
+
+        DB.AddParam("@E_ID", text)
+        DB.ExecuteQuery("SELECT Role FROM Employee WHERE E_ID = ? AND Active = '1';")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Return Role
+            Exit Function
+        End If
+
+        If DB.RecordCount = 0 Then
+            Role = "Inactive"
+            Return Role
+            Exit Function
+        Else
+            Role = DB.DBDataTable(0)("Role")
+        End If
+        If Role.Equals("Doctor") Or Role.Equals("Nurse") Then
+            MessageBox.Show("Only Admin or Receptionist can create an appointment.")
+            Me.Close()
+            Return Role
+            Exit Function
+        End If
+
+        Return Role
+    End Function
+
+    Private Function GetUserName(text As String) As String
+        Dim UserName As String = "Employee"
+        If text = String.Empty Then
+            UserName = String.Empty
+            Return UserName
+            Exit Function
+        End If
+        DB.AddParam("@EID", text)
+        DB.ExecuteQuery("SELECT Username FROM Employee WHERE E_ID = ? AND Active = '1';")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Return UserName
+            Exit Function
+        End If
+        If DB.RecordCount = 0 Then
+            UserName = "Inactive"
+            Return UserName
+            Exit Function
+        Else
+            UserName = DB.DBDataTable(0)("Username")
+        End If
+        Return UserName
+    End Function
+
+    Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        If ValidAppointment() = True Then
+            'Basic validation of data'
+            If DuplicateAppointment() = False Then
+                AddAppointment()
+                Me.Close()
+            End If
+        Else
+            Exit Sub
+        End If
+        ClearForm()
+    End Sub
+
+    Private Sub ClearForm()
+        EIDTextBox.Clear()
+        PatientIDTextBox.Clear()
+        DoctorComboBox.SelectedIndex = -1
+        DOVDateTimePicker.Value = Today.Date
+        ReasonTextBox.Clear()
+        TypeComboBox.SelectedIndex = -1
+        CreatedOnDateTimePicker.Value = Today.Date
+        UserNameLabel.Text = "UserName"
+        RoleLabel.Text = "Role"
+
+    End Sub
+    Private Sub NewAppointmentClosing(sender As Object, e As FormClosingEventArgs) Handles Me.FormClosing
+        ClearForm()
+    End Sub
+
+    Private Sub AddAppointment()
+        ' Date_of_Visit, Reason, Type, P_ID, E_ID, Diagnosis, Prescription, Status, Created_By, Created_On, Updated_By, Updated_On
+        DB.AddParam("@Date_of_Visit", DOVDateTimePicker.Value) '1
+        If String.IsNullOrWhiteSpace(ReasonTextBox.Text) Then
+            DB.AddParam("@Reason", DBNull.Value)
+        Else
+            DB.AddParam("@Reason", ReasonTextBox.Text) '2
+        End If
+        If String.IsNullOrWhiteSpace(TypeComboBox.Text) Then
+            DB.AddParam("@Type", DBNull.Value)
+        Else
+            DB.AddParam("@Type", TypeComboBox.Text) '3
+        End If
+        DB.AddParam("@P_ID", PatientIDTextBox.Text) '4
+        DB.AddParam("@E_ID", DoctorComboBox.Text) '5 
+        DB.AddParam("@Diagnosis", "NA") '6
+        DB.AddParam("@prescription", "NA") '7
+        DB.AddParam("@Status", StatusTextBox.Text) '8
+        DB.AddParam("@Createdby", UserNameLabel.Text) '9
+        DB.AddParam("@createdon", CreatedOnDateTimePicker.Value) '10
+        DB.ExecuteQuery("INSERT INTO Appointment (Date_of_Visit, Reason, Type, P_ID, E_ID, Diagnosis, Prescription, Status, Created_By, Created_On) VALUES(?,?,?,?,?,?,?,?,?,?)")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        Else
+            MessageBox.Show("A New Appointment for patient " & PatientIDTextBox.Text & "is added successfully.")
+        End If
+        AppointmentForm.SearchAppointment(AppointmentForm.PatientIDTextBox.Text, AppointmentForm.PhoneTextBox.Text)
+    End Sub
+    Private Function DuplicateAppointment() As Boolean
+        DB.AddParam("@Patient_ID", PatientIDTextBox.Text)
+        DB.AddParam("@DoctorID", DoctorComboBox.Text) 'EID
+        DB.AddParam("@Status", StatusTextBox.Text)
+        DB.AddParam("@DOV", CreatedOnDateTimePicker.Text)
+        DB.ExecuteQuery("SELECT * FROM Appointment WHERE  P_ID = ? AND E_ID = ? AND Status = ? AND Date_of_Visit =?")
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("Appointment is already booked.")
+            Return True
+        End If
+
+        Return False
+    End Function
+
+    Private Function ValidAppointment() As Boolean
+
+        If String.IsNullOrWhiteSpace(EIDTextBox.Text) Then
+            MessageBox.Show("EID cannot be empty")
+            EIDTextBox.SelectAll()
+            EIDTextBox.Focus()
+            Return False
+        End If
+        Dim E_IDInteger As New Integer
+        If Integer.TryParse(EIDTextBox.Text, E_IDInteger) = False Then
+            MessageBox.Show("E_ID  must be in integer format.")
+            EIDTextBox.SelectAll()
+            EIDTextBox.Focus()
+            Return False
+        End If
+        If E_IDInteger < 1 Or E_IDInteger > 32 Then
+            MessageBox.Show("E_ID number must be between 1 and 32.")
+            EIDTextBox.SelectAll()
+            EIDTextBox.Focus()
+            Return False
+        End If
+
+        If String.IsNullOrWhiteSpace(PatientIDTextBox.Text) Then
+            MessageBox.Show("Patient_ID cannot be empty")
+            PatientIDTextBox.SelectAll()
+            PatientIDTextBox.Focus()
+            Return False
+        End If
+        Dim PatientIDInteger As New Integer
+        If Integer.TryParse(PatientIDTextBox.Text, PatientIDInteger) = False Then
+            MessageBox.Show("Patient_ID  must be in integer format.")
+            PatientIDTextBox.SelectAll()
+            PatientIDTextBox.Focus()
+            Return False
+        End If
+        If PatientIDInteger < 1 Or PatientIDInteger > 30 Then
+            MessageBox.Show("patient ID number must be between 1 and 30.")
+            PatientIDTextBox.SelectAll()
+            PatientIDTextBox.Focus()
+            Return False
+        End If
+        If DoctorComboBox.SelectedValue Is Nothing Then
+            MessageBox.Show("Please select the Doctor ID.")
+            DoctorComboBox.SelectAll()
+            DoctorComboBox.Focus()
+            Return False
+        End If
+        Dim rxReason As New Regex("^(.*\n)*?.*$")
+        If String.IsNullOrEmpty(ReasonTextBox.Text) = False Then
+
+            If rxReason.IsMatch(ReasonTextBox.Text) = False Then
+
+                MessageBox.Show("Reason should in paragraphs.")
+                ReasonTextBox.SelectAll()
+                ReasonTextBox.Focus()
+
+                Return False
+            End If
+        End If
+        Return True
+    End Function
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        ClearForm()
+        Me.Close()
+    End Sub
+End Class
+
+Edit Appointment Code:
+Imports System.Text.RegularExpressions
+Public Class EditAppointment
+
+    Private DB As New DBAccessClass
+
+    Private Sub EditAppointment_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+        If String.IsNullOrEmpty(AppointmentForm.AppointmentIDTextBox.Text) Then
+            MessageBox.Show("No AppointmentID is selected, try again.")
+            Me.Close()
+        Else
+            Dim AppointmentID As Integer = AppointmentForm.AppointmentIDTextBox.Text
+            DB.AddParam("@AppointmentID", AppointmentID)
+            DB.ExecuteQuery("SELECT * FROM Appointment WHERE A_ID =?")
+            If DB.Exception <> String.Empty Then
+                MessageBox.Show(DB.Exception)
+                Exit Sub
+            End If
+            If DB.RecordCount = 0 Then
+                MessageBox.Show("No AppointmentID is selected")
+                Exit Sub
+            End If
+
+
+            AppointmentIDTextBox.Text = DB.DBDataTable(0)("A_ID") '1
+            DoctorTextBox.Text = DB.DBDataTable(0)("E_ID") '1'2
+            PatientIDTextBox.Text = DB.DBDataTable(0)!P_ID '3
+            DOVDateTimePicker.Value = DB.DBDataTable(0)!Date_of_Visit '4
+
+
+            If IsDBNull(DB.DBDataTable(0)!Reason) Then 'handle all optional fields this way
+                ReasonTextBox.Text = String.Empty
+            Else
+                ReasonTextBox.Text = DB.DBDataTable(0)!Reason '5
+            End If
+            If IsDBNull(DB.DBDataTable(0)!Type) Then 'handle all optional fields this way
+                TypeComboBox.Text = String.Empty
+            Else
+                TypeComboBox.SelectedIndex = TypeComboBox.FindStringExact(DB.DBDataTable(0)("Type"))
+            End If
+
+            StatusComboBox.SelectedIndex = StatusComboBox.FindStringExact(DB.DBDataTable(0)("Status")) '7
+            CreatedOnDateTimePicker.Value = DB.DBDataTable(0)!Created_On '8
+            DiagnosisTextBox.Text = DB.DBDataTable(0)!Diagnosis '9
+            PrescriptionTextBox.Text = DB.DBDataTable(0)!Prescription '10
+            RoleLabel.Text = GetRole(DoctorTextBox.Text)
+            UserNameLabel.Text = GetUserName(DoctorTextBox.Text)
+
+
+            If DiagnosisTextBox.Text = "NA" Then
+                DiagnosisTextBox.Clear()
+            End If
+
+            If PrescriptionTextBox.Text = "NA" Then
+                PrescriptionTextBox.Clear()
+            End If
+
+            If DoctorTextBox.Text <> UserLoginForm.EIDLabel.Text Then
+                MessageBox.Show("Appointment is under another doctor, you can not edit the form details.")
+                Me.Close()
+            End If
+
+        End If
+        EnableFieldstoEdit(False)
+    End Sub
+Private Function GetRole(text As String) As String
+        Dim Role As String = "Employee"
+        If text = String.Empty Then
+            Role = String.Empty
+            Return Role
+            Exit Function
+        End If
+
+        DB.AddParam("@E_ID", text)
+        DB.ExecuteQuery("SELECT Role FROM Employee WHERE E_ID = ? AND Active = '1';")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Return Role
+            Exit Function
+        End If
+
+        If DB.RecordCount = 0 Then
+            Role = "Inactive"
+            Return Role
+            Exit Function
+        Else
+            Role = DB.DBDataTable(0)("Role")
+        End If
+        Dim ActualRole As String = "Doctor"
+        If Not ActualRole.Equals(Role) Then
+            MessageBox.Show("Only Doctor can Edit an appointment.")
+            Me.Close()
+            Return Role
+            Exit Function
+        End If
+
+        Return Role
+    End Function
+
+
+    Private Function GetUserName(text As String) As String
+        Dim UserName As String = "Employee"
+        If text = String.Empty Then
+            UserName = String.Empty
+            Return UserName
+            Exit Function
+        End If
+        DB.AddParam("@EID", text)
+        DB.ExecuteQuery("SELECT Username FROM Employee WHERE E_ID = ? AND Active = '1';")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Return UserName
+            Exit Function
+        End If
+        If DB.RecordCount = 0 Then
+            UserName = "Inactive"
+            Return UserName
+            Exit Function
+        Else
+            UserName = DB.DBDataTable(0)("Username")
+        End If
+        Return UserName
+    End Function
+
+    Private Sub EnableFieldstoEdit(ToEdit As Boolean)
+        AppointmentIDTextBox.ReadOnly = True '1
+        DoctorTextBox.Enabled = ToEdit '2
+        PatientIDTextBox.Enabled = False '3
+        DoctorTextBox.Enabled = ToEdit '4
+        DOVDateTimePicker.Enabled = False '11
+        ReasonTextBox.Enabled = ToEdit '5
+        TypeComboBox.Enabled = ToEdit '6
+        StatusComboBox.Enabled = ToEdit '7
+        CreatedOnDateTimePicker.Enabled = False '8
+        DiagnosisTextBox.Enabled = ToEdit '9
+        PrescriptionTextBox.Enabled = ToEdit '10
+
+        If ToEdit Then
+            EditSaveButton.Text = "&Save"
+        Else
+            EditSaveButton.Text = "&Edit"
+        End If
+    End Sub
+
+    Private Sub EditSaveButton_Click(sender As Object, e As EventArgs) Handles EditSaveButton.Click
+        If EditSaveButton.Text = "&Edit" Then
+            'edit mode 
+            'release fields for editing 
+            EnableFieldstoEdit(True)
+        Else
+            'save mode
+            'save Appointment updates
+            'Note: you should validate the edit Appointment here!!!
+            If ValidEditAppointment() Then
+                UpdateAppointment()
+                AppointmentForm.SearchAppointment(AppointmentForm.PatientIDTextBox.Text, AppointmentForm.PhoneTextBox.Text)
+                'restore back to the editing mode
+                EnableFieldstoEdit(False)
+            End If
+        End If
+    End Sub
+Private Function ValidEditAppointment() As Boolean
+        ' Date_of_Visit, Reason, Type, P_ID, E_ID, Diagnosis, Prescription, Status, Created_By, Created_On, Updated_By, Updated_On
+        If String.IsNullOrWhiteSpace(DoctorTextBox.Text) Then
+            MessageBox.Show("Doctor cannot be empty")
+            DoctorTextBox.SelectAll()
+            DoctorTextBox.Focus()
+            Return False
+        End If
+
+        If String.IsNullOrWhiteSpace(PatientIDTextBox.Text) Then
+            MessageBox.Show("Patient_ID cannot be empty")
+            PatientIDTextBox.SelectAll()
+            PatientIDTextBox.Focus()
+            Return False
+        End If
+        Dim PatientIDInteger As New Integer
+        If Integer.TryParse(PatientIDTextBox.Text, PatientIDInteger) = False Then
+            MessageBox.Show("Patient_ID  must be in integer format.")
+            PatientIDTextBox.SelectAll()
+            PatientIDTextBox.Focus()
+            Return False
+        End If
+        If PatientIDInteger < 1 Or PatientIDInteger > 30 Then
+            MessageBox.Show("Patient ID number must be between 1 and 30.")
+            PatientIDTextBox.SelectAll()
+            PatientIDTextBox.Focus()
+            Return False
+        End If
+
+        Dim rxReason As New Regex("^(.*\n)*?.*$")
+        If String.IsNullOrEmpty(ReasonTextBox.Text) = False Then
+
+            If rxReason.IsMatch(ReasonTextBox.Text) = False Then
+
+                MessageBox.Show("Reason should in paragraphs.")
+                ReasonTextBox.SelectAll()
+                ReasonTextBox.Focus()
+
+                Return False
+            End If
+        End If
+        If StatusComboBox.SelectedIndex = -1 Then
+            MessageBox.Show("Please select the Status type.")
+            StatusComboBox.SelectAll()
+            StatusComboBox.Focus()
+            Return False
+        End If
+        If StatusComboBox.SelectedIndex = StatusComboBox.FindStringExact("New") Then
+            MessageBox.Show("The Status should not be New in EditForm.")
+            Return False
+        End If
+
+        Dim rxDiagnosis As New Regex("^(.*\n)*?.*$")
+        If String.IsNullOrEmpty(DiagnosisTextBox.Text) = False Then
+
+            If rxReason.IsMatch(ReasonTextBox.Text) = False Then
+
+                MessageBox.Show("Diagnosis should in paragraphs.")
+                DiagnosisTextBox.SelectAll()
+                DiagnosisTextBox.Focus()
+
+                Return False
+            End If
+        End If
+        Dim rxPrescription As New Regex("^(.*\n)*?.*$")
+        If String.IsNullOrEmpty(PrescriptionTextBox.Text) = False Then
+
+            If rxReason.IsMatch(PrescriptionTextBox.Text) = False Then
+
+                MessageBox.Show("Prescription should in paragraphs.")
+                PrescriptionTextBox.SelectAll()
+                PrescriptionTextBox.Focus()
+                Return False
+            End If
+        End If
+        Return True
+    End Function
+    Private Function DuplicateAppointment() As Boolean
+        DB.AddParam("@Patient_ID", PatientIDTextBox.Text)
+        DB.AddParam("@DoctorID", DoctorTextBox.Text) 'EID
+        DB.AddParam("@Status", StatusComboBox.Text)
+        DB.AddParam("@DOV", CreatedOnDateTimePicker.Text)
+
+        DB.ExecuteQuery("SELECT * FROM Appointment WHERE  P_ID = ? AND E_ID = ? AND Status = ? AND Date_of_Visit =?")
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("The important fields in Appointment are not changed.")
+            Return True
+        End If
+
+        Return False
+    End Function
+
+    Private Sub UpdateAppointment()
+        DB.AddParam("@Date_of_Visit", DOVDateTimePicker.Value) '1
+        If String.IsNullOrWhiteSpace(ReasonTextBox.Text) Then
+            DB.AddParam("@Reason", DBNull.Value)
+        Else
+            DB.AddParam("@Reason", ReasonTextBox.Text) '2
+        End If
+        If String.IsNullOrWhiteSpace(TypeComboBox.Text) Then
+            DB.AddParam("@Type", DBNull.Value)
+        Else
+            DB.AddParam("@Type", TypeComboBox.Text) '3
+        End If
+        DB.AddParam("@P_ID", PatientIDTextBox.Text) '4
+        DB.AddParam("@E_ID", DoctorTextBox.Text) '5 
+        DB.AddParam("@Diagnosis", DiagnosisTextBox.Text) '6
+        DB.AddParam("@Prescription", PrescriptionTextBox.Text) '7
+        DB.AddParam("@Status", StatusComboBox.Text) '8
+        DB.AddParam("@Updated_By", UserNameLabel.Text)
+        DB.AddParam("@A_ID", AppointmentIDTextBox.Text)
+
+        ', Updated_By, Updated_On
+
+        DB.ExecuteQuery("UPDATE Appointment SET Date_of_Visit=?, Reason=?, Type=?, P_ID=?, E_ID =?, Diagnosis=?, Prescription = ?,  Status = ?, Updated_By = ? WHERE A_ID =?")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        Else
+            MessageBox.Show("The appointment" & AppointmentIDTextBox.Text & " 's record is updated sucessfully")
+        End If
+    End Sub
+Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        Me.Close()
+    End Sub
+
+    Private Sub PatientInformationButton_Click(sender As Object, e As EventArgs) Handles PatientInformationButton.Click
+        PatientsForm.PatientIDTextBox.Text = PatientIDTextBox.Text
+        ExistingPatientForm.ShowDialog()
+        PatientsForm.PatientIDTextBox.Clear()
+    End Sub
+End Class
