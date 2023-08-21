@@ -1,0 +1,195 @@
+Report Form Document:
+
+Public Class Report
+    Private DB As New DBAccessClass
+    'Private CM As New CommonMethods
+    'Dim dt As New DataTable
+    Private Sub AppointmentButton_Click(sender As Object, e As EventArgs) Handles AppointmentButton.Click
+        TitleLabel.Text = "Number of Appointments Day Wise"
+        PatientVisible(False)
+        DBDataGridView.Visible = False
+        LineChart.Visible = True
+        GenerateLineChart(StartDateTimePicker.Value, EndDateTimePicker.Value)
+        GetAppointmentsTotal(StartDateTimePicker.Value, EndDateTimePicker.Value)
+
+    End Sub
+
+    Private Sub GetAppointmentsTotal(StartDate As Date, EndDate As Date)
+        DB.AddParam("@start", StartDate) '1st param
+        DB.AddParam("@end", EndDate) '2nd param
+        DB.ExecuteQuery("SELECT  COUNT(A_ID) AS TOTAL FROM Appointment WHERE Date_of_Visit BETWEEN ? AND ?")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+
+        Label3.Visible = True
+        Label6.Visible = True
+        Label3.Text = "Total number of Appointments:"
+        Label6.Text = DB.DBDataTable(0)("TOTAL")
+    End Sub
+
+    Private Sub GetEmployeesTotal()
+        DB.ExecuteQuery("Select Role, COUNT(E_ID) As Count FROM Employee where Active = '1' group by Role")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+
+        DBDataGridView.DataSource = DB.DBDataTable
+        RecordCountToolStripStatusLabel.Text = "Number of records retrieved: " &
+        DB.RecordCount
+
+    End Sub
+
+    Private Sub GenerateLineChart(StartDate As Date, EndDate As Date)
+        DB.AddParam("@start", StartDate) '1st param
+        DB.AddParam("@end", EndDate) '2nd param
+        DB.ExecuteQuery("SELECT  COUNT(A_ID) AS Number_Of_Appointments, Date_of_Visit FROM Appointment WHERE Date_of_Visit BETWEEN ? AND ? GROUP BY Date_of_Visit")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+
+        LineChart.DataSource = DB.DBDataTable
+        LineChart.Series("Number Of Appointments").XValueMember = "Date_of_Visit"
+        LineChart.Series("Number Of Appointments").YValueMembers = "Number_Of_Appointments"
+
+        LineChart.DataBind()
+    End Sub
+
+    Private Sub EmployeesButton_Click(sender As Object, e As EventArgs) Handles EmployeesButton.Click
+        TitleLabel.Text = "Employee Records"
+        DBDataGridView.Visible = True
+        LineChart.Visible = False
+        PatientVisible(False)
+        GetEmployeesTotal()
+
+
+
+    End Sub
+
+    Private Sub PatientVisible(Flag As Boolean)
+        Label3.Visible = Flag
+        Label4.Visible = Flag
+        Label5.Visible = Flag
+        Label6.Visible = Flag
+        Label7.Visible = Flag
+        Label8.Visible = Flag
+    End Sub
+    Private Sub PatientButton_Click(sender As Object, e As EventArgs) Handles PatientButton.Click
+        TitleLabel.Text = "Patients Records"
+        LineChart.Visible = False
+        DBDataGridView.Visible = True
+        PatientVisible(True)
+        GetPatientsTotal(StartDateTimePicker.Value, EndDateTimePicker.Value)
+        GetRecords(StartDateTimePicker.Value, EndDateTimePicker.Value, "Patient")
+    End Sub
+
+    Private Sub GetRecords(StartDate As Date, EndDate As Date, Table As String)
+        DB.AddParam("@start", StartDate) '1st param
+        DB.AddParam("@end", EndDate) '2nd param
+        DB.ExecuteQuery("SELECT * FROM " & Table & " WHERE Created_On BETWEEN ? AND ?;")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+
+        DBDataGridView.DataSource = DB.DBDataTable
+        RecordCountToolStripStatusLabel.Text = "Number of records retrieved: " &
+        DB.RecordCount
+
+    End Sub
+
+    Private Sub GetPatientsTotal(StartDate As Date, EndDate As Date)
+        DB.AddParam("@start", StartDate) '1st param
+        DB.AddParam("@end", EndDate) '2nd param
+        DB.ExecuteQuery("SELECT COUNT(*) AS TOTAL, COUNT(CASE WHEN Gender='M' THEN 1 END) AS MALE, COUNT(CASE WHEN Gender='F' THEN 1 END) AS FEMALE FROM Patient WHERE Created_on BETWEEN ? and ?;")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+
+        Label6.Text = DB.DBDataTable(0)("TOTAL")
+        Label7.Text = DB.DBDataTable(0)!MALE
+        Label8.Text = DB.DBDataTable(0)!FEMALE
+
+    End Sub
+
+
+    'Private Sub Report_Load(sender As Object, e As EventArgs) Handles Me.Load
+
+    'End Sub
+
+    'Private Sub ExportDatatoExcelButton_Click(sender As Object, e As EventArgs) Handles ExportDatatoExcelButton.Click
+    '    DB.AddParam("@s", StartDateTimePicker.Value)
+    '    DB.AddParam("@e", EndDateTimePicker.Value)
+
+    '    DB.ExecuteQuery("SELECT *  FROM Appointment WHERE Created_on BETWEEN ? and ?")
+    '    If DB.Exception <> String.Empty Then
+    '        MessageBox.Show(DB.Exception)
+    '        Exit Sub
+    '    Else
+    '        'dt = DB.DBDataTable
+    '        'CM.ExportToExcel(dt, "Appointment Chart")
+    '    End If
+
+    'End Sub
+End Class
+
+
+DBAccess Code:
+
+
+Imports System.Data.Odbc
+Public Class DBAccessClass
+    Private ConnectionString As String = "Driver={MySQL ODBC 8.0 ANSI Driver}; server=141.209.241.88; database=sp2023bis698fc2g3; user=sp2023bis698fc2g3; password=warm"
+
+    Private DBConnection As New OdbcConnection(ConnectionString)
+    Private DBCommand As OdbcCommand 'example: SELECT * FROM product;
+
+
+    Public Params As New List(Of OdbcParameter) 'SELECT * FROM product WHERE title="orange" AND coo="China";
+    Public DBDataAdapter As OdbcDataAdapter
+
+    Public DBDataTable As DataTable 'to receive data from database
+    Public RecordCount As Integer
+    Public Exception As String
+
+    Public Sub ExecuteQuery(QueryString As String)
+        RecordCount = 0
+        Exception = String.Empty
+
+        Try
+            DBConnection.Open()
+            DBCommand = New OdbcCommand(QueryString, DBConnection)
+
+            For Each p As OdbcParameter In Params
+                DBCommand.Parameters.Add(p)
+            Next
+            Params.Clear()
+
+            DBDataTable = New DataTable
+            DBDataAdapter = New OdbcDataAdapter(DBCommand)
+            RecordCount = DBDataAdapter.Fill(DBDataTable)
+
+        Catch ex As Exception
+            Exception = ex.Message
+        End Try
+
+        If DBConnection.State = ConnectionState.Open Then
+            DBConnection.Close()
+        End If
+    End Sub
+
+    Public Sub AddParam(Name As String, Value As Object)
+        Dim NewParam As New OdbcParameter(Name, Value)
+        Params.Add(NewParam)
+    End Sub
+End Class
+
