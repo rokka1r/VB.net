@@ -1,0 +1,1262 @@
+EmployeeForm Code:
+
+Public Class EmployeeForm
+    Private DB As New DBAccessClass
+
+    Private Sub Employee_Load(sender As Object, e As EventArgs) Handles Me.Load
+        RoleComboBox.SelectedIndex = -1
+        SearchEmployee(FirstNameTextBox.Text, LastNameTextBox.Text, RoleComboBox.Text)
+        EditToolStripMenuItem.Enabled = False
+        DeleteToolStripMenuItem.Enabled = False
+    End Sub
+
+    Private Sub NameTextBox_KeyUp(sender As Object, e As KeyEventArgs) Handles FirstNameTextBox.KeyUp, LastNameTextBox.KeyUp
+        SearchEmployee(FirstNameTextBox.Text, LastNameTextBox.Text, RoleComboBox.Text)
+    End Sub
+
+    Friend Sub SearchEmployee(First_Name As String, Last_Name As String, Role As String)
+
+        ' Search by FirstName, LastName and Role
+        DB.AddParam("@FirstName", First_Name & "%") ' 1st param
+        DB.AddParam("@LastName", Last_Name & "%") '2nd param
+        DB.AddParam("@Role", Role & "%") '3rd param
+        DB.ExecuteQuery("SELECT * FROM Employee WHERE FirstName LIKE ? AND LastName LIKE ? AND Role LIKE ?;")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+
+        DBDataGridView.DataSource = DB.DBDataTable
+        RecordNumberToolStripStatusLabel.Text = "Number of Employees: " & DB.RecordCount
+    End Sub
+
+    Private Sub RoleComboBox_ValueMemberChanged(sender As Object, e As EventArgs) Handles RoleComboBox.SelectedValueChanged
+        SearchEmployee(FirstNameTextBox.Text, LastNameTextBox.Text, RoleComboBox.Text)
+    End Sub
+
+    Private Sub NewToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles NewToolStripMenuItem.Click
+        NewEmployeeForm.ShowDialog()
+
+    End Sub
+    Private Sub DBDataGridView_CellClick(sender As Object, e As DataGridViewCellEventArgs) Handles DBDataGridView.CellClick
+        If e.RowIndex < 0 Or e.RowIndex = DBDataGridView.Rows.Count - 1 Then
+            Employee_IDTextBox.Clear()
+            EditToolStripMenuItem.Enabled = False
+            DeleteToolStripMenuItem.Enabled = False
+        Else
+            Employee_IDTextBox.Text = DBDataGridView.Rows(e.RowIndex).Cells(0).Value
+            EditToolStripMenuItem.Enabled = True
+            DeleteToolStripMenuItem.Enabled = True
+        End If
+    End Sub
+    Private Sub EditToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles EditToolStripMenuItem.Click
+        ExistingEmployeeForm.ShowDialog()
+    End Sub
+
+
+    Private Sub DeleteToolStripMenuItem_Click(sender As Object, e As EventArgs) Handles DeleteToolStripMenuItem.Click
+        If String.IsNullOrEmpty(Employee_IDTextBox.Text) Then
+            MessageBox.Show("Please select a employee to delete.")
+            Exit Sub
+        Else
+            Dim aDialog As DialogResult
+            aDialog = MessageBox.Show("Do you really want to delete employee# " &
+             Employee_IDTextBox.Text, "Delete Confirmationn", MessageBoxButtons.YesNo, MessageBoxIcon.Question, MessageBoxDefaultButton.Button2)
+            If aDialog = vbYes Then
+                DB.AddParam("@Employee_ID", Employee_IDTextBox.Text)
+                DB.ExecuteQuery("UPDATE Employee SET Active = 0 WHERE E_ID =?;")
+                If DB.Exception <> String.Empty Then
+                    MessageBox.Show(DB.Exception)
+                    Exit Sub
+                End If
+                MessageBox.Show("The employee#" & Employee_IDTextBox.Text & " is deleted successfully.")
+                Employee_IDTextBox.Text = String.Empty
+                SearchEmployee(FirstNameTextBox.Text, LastNameTextBox.Text, RoleComboBox.Text)
+            End If
+        End If
+    End Sub
+End Class
+New EmployeeForm Code:
+Imports System.ComponentModel
+Imports System.Text.RegularExpressions
+Public Class NewEmployeeForm
+    Private DB As New DBAccessClass
+    Private Sub AddEmployee()
+        DB.AddParam("@FirstName", FirstNameTextBox.Text) '1st param
+        DB.AddParam("@LastName", LastNameTextBox.Text) '2nd param
+        DB.AddParam("@Phone", PhoneTextBox.Text) '3rd param
+        If String.IsNullOrWhiteSpace(Email_IDTextBox.Text) Then
+            DB.AddParam("@Email_ID", DBNull.Value) '
+        Else
+            DB.AddParam("@Email_ID", Email_IDTextBox.Text) '4th param
+        End If
+
+        DB.AddParam("@DOB", DOBDateTimePicker.Value) '5th param
+        DB.AddParam("@Gender", GenderComboBox.Text) '6th param
+        DB.AddParam("@Qualification", QualificationTextBox.Text) '7th param
+        DB.AddParam("@Active", ActiveCheckBox.Checked) '8th param
+        If String.IsNullOrWhiteSpace(AddressLine1TextBox.Text) Then
+            DB.AddParam("@Address_Line_1", DBNull.Value)
+        Else
+            DB.AddParam("@Address_Line_1", AddressLine1TextBox.Text) '9th param
+        End If
+
+        If String.IsNullOrWhiteSpace(AddressLine2TextBox.Text) Then
+            DB.AddParam("@Address_Line_2", DBNull.Value)
+        Else
+            DB.AddParam("@Address_Line_2", AddressLine2TextBox.Text) '10th param
+        End If
+        DB.AddParam("@City", CityTextBox.Text) '11th param
+        DB.AddParam("@District", DistrictTextBox.Text) '12th param
+        DB.AddParam("@State", StateTextBox.Text) '13th param
+        DB.AddParam("@Pincode", PincodeTextBox.Text) '14th param
+        DB.AddParam("@Username", UserNameTextBox.Text) '15th param
+        DB.AddParam("@Password", PasswordTextBox.Text) '16th param
+
+        DB.AddParam("@Created_On)", CreatedOnDateTimePicker.Value) '18th param
+        DB.AddParam("@Created_By)", "Manager") '19th param
+        DB.AddParam("@Role", RoleComboBox.Text) '20th param
+        'E_ID, FirstName, LastName, Username, Password, Phone, Email_ID, DOB, Gender, Shift_Schedule, Qualification, Active, Address_Line_1, Address_Line_2, City, District, State, Pincode, Created_On, Created_By, Updated_On, Updated_By, Role
+
+        DB.ExecuteQuery("INSERT INTO Employee(FirstName, LastName, Phone, Email_ID , DOB, Gender, Qualification, Active, Address_Line_1, Address_Line_2, City, District, State, Pincode, Username, Password , Created_On, Created_By, Role) VALUES(?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?,?,?,?)")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        Else
+            MessageBox.Show("A New Employee " & FirstNameTextBox.Text & " " & LastNameTextBox.Text & "is added successfully.")
+        End If
+
+End Sub
+
+    Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        If ValidNewEmployeeData() = False Then ' basic validation of data
+            Exit Sub
+        ElseIf DuplicateEmployee() = True Then 'higher level duplicate validation
+            Exit Sub
+        End If
+        AddEmployee()
+        AddSubtype()
+        EmployeeForm.SearchEmployee(EmployeeForm.FirstNameTextBox.Text, EmployeeForm.LastNameTextBox.Text, EmployeeForm.RoleComboBox.Text)
+        Me.Close()
+    End Sub
+
+    Private Sub AddSubtype()
+        EmployeeLabel.Text = GetNewEmployeeID()
+        If RoleComboBox.Text = "Doctor" Then
+            DoctorForm.ShowDialog()
+
+        ElseIf RoleComboBox.Text = "Nurse" Then
+            NurseForm.ShowDialog()
+
+        ElseIf RoleComboBox.Text = "Receptionist" Then
+            ReceptionistForm.ShowDialog()
+
+        ElseIf RoleComboBox.Text = "Administrator" Then
+            AdministratorForm.ShowDialog()
+
+        Else
+            MessageBox.Show("Role should be selected")
+            RoleComboBox.SelectAll()
+            RoleComboBox.Focus()
+        End If
+    End Sub
+
+    Private Function GetNewEmployeeID() As String
+        Dim EmployeeID As String = "Employee"
+        DB.AddParam("FirstName", FirstNameTextBox.Text)
+        DB.AddParam("LastName", LastNameTextBox.Text)
+        DB.AddParam("@Role", RoleComboBox.Text)
+        DB.AddParam("@phone", PhoneTextBox.Text)
+        DB.ExecuteQuery("SELECT E_ID FROM Employee WHERE FirstName = ? AND LastName = ? AND Role = ? AND Phone = ? ORDER BY E_ID DESC LIMIT 1;")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Return EmployeeID
+            Exit Function
+        End If
+        If DB.RecordCount = 0 Then
+            Return EmployeeID
+            Exit Function
+        Else
+            EmployeeID = DB.DBDataTable(0)("E_ID")
+        End If
+        Return EmployeeID
+    End Function
+
+Private Function ValidNewEmployeeData() As Boolean
+
+        '1Validate the FirstName field.
+        'Test if the FirstName is empty or not.
+
+        If String.IsNullOrWhiteSpace(FirstNameTextBox.Text) = True Then
+            MessageBox.Show("The firstname should Not be empty.")
+            FirstNameTextBox.SelectAll()
+            FirstNameTextBox.Focus()
+            Return False
+        End If
+
+        'Test if the FirstName is alphabetic or not
+        Dim rxFirstName As New Regex("^[A-Z]+[a-z]+$")
+        If rxFirstName.IsMatch(FirstNameTextBox.Text) = False Then
+            MessageBox.Show("FirstName must be alphabets and start with an upper case letter.")
+            FirstNameTextBox.SelectAll()
+            FirstNameTextBox.Focus()
+            Return False
+        End If
+
+        '2 Validate the LastName field.
+        'Test if the LastName is empty or not.
+        If String.IsNullOrWhiteSpace(LastNameTextBox.Text) = True Then
+            MessageBox.Show("The LastName should not be empty.")
+            LastNameTextBox.SelectAll()
+            LastNameTextBox.Focus()
+            Return False
+        End If
+
+        '2 Test if the LastName is alphabetic or not
+        Dim rxLastName As New Regex("^[A-Z]+[a-z]+$")
+        If rxLastName.IsMatch(LastNameTextBox.Text) = False Then
+            MessageBox.Show("LastName must be alphabets and start with an upper case letter.")
+            LastNameTextBox.SelectAll()
+            LastNameTextBox.Focus()
+            Return False
+        End If
+
+        ' 3 Validate Phone input 
+        ' Test if phone number is empty
+        If String.IsNullOrWhiteSpace(PhoneTextBox.Text) Then
+            MessageBox.Show("Phone Number Cannot be Empty. ")
+            PhoneTextBox.SelectAll()
+            PhoneTextBox.Focus()
+            Return False
+        End If
+
+        'Test if Phone Number follows the right patterns
+        Dim rxPhoneNumber As New Regex("^1?[-\. ]?(\(\d{3}\)?[-\. ]?|\d{3}?[-\. ]?)?\d{3}?[-\. ]?\d{4}$")
+        If Not rxPhoneNumber.IsMatch(PhoneTextBox.Text) Then
+            MessageBox.Show("Phone Number Must Follow the Right Format Such As (AreaCode XXX XXXX)")
+            PhoneTextBox.SelectAll()
+            PhoneTextBox.Focus()
+            Return False
+        End If
+
+        '4 Test if Email_ID is valid.
+        Dim rxEmail_ID As New Regex("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
+        If String.IsNullOrEmpty(Email_IDTextBox.Text) = False Then
+            If rxEmail_ID.IsMatch(Email_IDTextBox.Text) = False Then
+                MessageBox.Show("Email_ID must follow the right format such as abc@xyz.com.")
+                Email_IDTextBox.SelectAll()
+                Email_IDTextBox.Focus()
+                Return False
+            End If
+        Else
+        End If
+
+        ' Validate the Gender field.
+        If GenderComboBox.SelectedIndex = -1 Then
+            MessageBox.Show("gender must be selected")
+            GenderComboBox.SelectAll()
+            GenderComboBox.Focus()
+            Return False
+        End If
+
+        'Validate the Qualification field.
+        If String.IsNullOrWhiteSpace(QualificationTextBox.Text) = True Then
+            MessageBox.Show("The Qualification should Not be empty.")
+            QualificationTextBox.SelectAll()
+            QualificationTextBox.Focus()
+            Return False
+        End If
+
+        'Test if the Qualification is alphabetic or not
+        Dim rxQualification As New Regex("^[A-Z]+[a-z]+$")
+        If rxQualification.IsMatch(QualificationTextBox.Text) = False Then
+            MessageBox.Show("Qualification must be alphabets and start with an upper case letter.")
+            QualificationTextBox.SelectAll()
+            QualificationTextBox.Focus()
+            Return False
+        End If
+
+        '10 UserName cannot be empty
+        If String.IsNullOrWhiteSpace(UserNameTextBox.Text) Then
+            MessageBox.Show("UserName cannot be empty.")
+            UserNameTextBox.SelectAll()
+            UserNameTextBox.Focus()
+            Return False
+        End If
+
+        'Username must be text only
+        Dim rxUserName As New Regex("^[A-Z]+[a-z]+$")
+        If rxUserName.IsMatch(UserNameTextBox.Text) = False Then
+            MessageBox.Show("UserName must be alphabets and start with an upper case letter.")
+            UserNameTextBox.SelectAll()
+            UserNameTextBox.Focus()
+            Return False
+        End If
+
+'11 Validate Password
+        Dim regexPattern As New Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
+        If regexPattern.IsMatch(PasswordTextBox.Text) = False Then
+            MessageBox.Show("Password must follow the right format. > Must be at least 8 characters long > Must contain at least one uppercase letter > Must contain at least one lowercase letter > Must contain at least one digit > Must contain at least one special character from the set @$!%*?&")
+            PasswordTextBox.SelectAll()
+            PasswordTextBox.Focus()
+            Return False
+        End If
+
+        'Password cannot be empty
+        If String.IsNullOrWhiteSpace(PasswordTextBox.Text) Then
+            MessageBox.Show("Password cannot be empty.")
+            PasswordTextBox.SelectAll()
+            PasswordTextBox.Focus()
+            Return False
+        End If
+
+
+        '5 Validate the AddressLine1 field
+        'step 2 AddressLine1 must be in specific format
+
+        If String.IsNullOrWhiteSpace(AddressLine1TextBox.Text) Then
+            MessageBox.Show("Adress line 1 cannot be empty.")
+            AddressLine1TextBox.SelectAll()
+            AddressLine1TextBox.Focus()
+            Return False
+        End If
+
+        Dim rxAddressLine1 As New Regex("^[A-Za-z#,-]+$")
+        If rxAddressLine1.IsMatch(AddressLine1TextBox.Text) Then
+            MessageBox.Show("AddressLine1 must be in specific format.")
+            AddressLine1TextBox.SelectAll()
+            AddressLine1TextBox.Focus()
+            Return False
+        End If
+
+        If String.IsNullOrWhiteSpace(AddressLine2TextBox.Text) Then
+            MessageBox.Show("Adress line 2 can not be empty.")
+            AddressLine2TextBox.SelectAll()
+            AddressLine2TextBox.Focus()
+            Return False
+        End If
+
+        '6 Validate the AddressLine2 field
+        'step 2 AddressLine2 must be in specific format
+        Dim rxAddressLine2 As New Regex("^[A-Za-z0-9#,-]+$")
+        If rxAddressLine2.IsMatch(AddressLine2TextBox.Text) Then
+            MessageBox.Show("AddressLine2 must be in specific format.")
+            AddressLine2TextBox.SelectAll()
+            AddressLine2TextBox.Focus()
+            Return False
+        End If
+
+        '7 Test if city is not empty
+        If String.IsNullOrWhiteSpace(CityTextBox.Text) Then
+            MessageBox.Show("City cannot be empty.")
+            CityTextBox.SelectAll()
+            CityTextBox.Focus()
+            Return False
+        End If
+
+        Dim rxcity As New Regex("^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$")
+        If Not rxcity.IsMatch(CityTextBox.Text) Then
+            MessageBox.Show("City can only have alphabets starting with uppercase.")
+            CityTextBox.SelectAll()
+            CityTextBox.Focus()
+            Return False
+        End If
+
+        '8 Test if District is not empty
+        If String.IsNullOrWhiteSpace(DistrictTextBox.Text) Then
+            MessageBox.Show("District cannot be empty.")
+            DistrictTextBox.SelectAll()
+            DistrictTextBox.Focus()
+            Return False
+        End If
+
+        Dim rxdistrict As New Regex("^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$")
+        If Not rxdistrict.IsMatch(DistrictTextBox.Text) Then
+            MessageBox.Show("District can only have alphabets starting with uppercase.")
+            DistrictTextBox.SelectAll()
+            DistrictTextBox.Focus()
+            Return False
+        End If
+
+' 8 Test if State is not empty
+        If String.IsNullOrWhiteSpace(StateTextBox.Text) Then
+            MessageBox.Show("State cannot be empty.")
+            StateTextBox.SelectAll()
+            StateTextBox.Focus()
+            Return False
+        End If
+
+        '9 Validate pincode field.
+        'Test if pincode is not empty 
+        If String.IsNullOrWhiteSpace(PincodeTextBox.Text) Then
+            MessageBox.Show("Pincode cannot be empty.")
+            PincodeTextBox.SelectAll()
+            PincodeTextBox.Focus()
+            Return False
+        End If
+        Dim rxpincode As New Regex("^[1-9][0-9]{6}\s{0,1}[0-9]{3}$")
+        If rxpincode.IsMatch(PincodeTextBox.Text) Then
+            MessageBox.Show("pincode must have 6 digit.")
+            PincodeTextBox.SelectAll()
+            PincodeTextBox.Focus()
+            Return False
+        End If
+
+        ' Test if pincode can converted to integer
+        Dim pincodeInteger As Integer 'Declare pincode Variable
+        If Integer.TryParse(PincodeTextBox.Text, pincodeInteger) = False Then
+            MessageBox.Show("Pincode should be an integer")
+            PincodeTextBox.SelectAll()
+            PincodeTextBox.Focus()
+            Return False
+        End If
+
+        'Validate role 
+        If RoleComboBox.SelectedIndex = -1 Then
+            MessageBox.Show("Role should be selected")
+            RoleComboBox.SelectAll()
+            RoleComboBox.Focus()
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Sub ClearForm()
+
+        FirstNameTextBox.Clear()
+        LastNameTextBox.Clear()
+        PhoneTextBox.Clear()
+        Email_IDTextBox.Clear()
+        DOBDateTimePicker.Value = Today.Date
+        GenderComboBox.SelectedValue = False
+        QualificationTextBox.Clear()
+        ActiveCheckBox.Checked = True
+        ActiveCheckBox.Enabled = False
+        AddressLine1TextBox.Clear()
+        AddressLine2TextBox.Clear()
+        DistrictTextBox.Clear()
+        CityTextBox.Clear()
+        StateTextBox.Clear()
+        PincodeTextBox.Clear()
+        UserNameTextBox.Clear()
+        PasswordTextBox.Clear()
+        CreatedOnDateTimePicker.Value = Today.Date
+        RoleComboBox.SelectedItem = False
+
+    End Sub
+
+    Private Function DuplicateEmployee() As Boolean
+
+        DB.AddParam("FirstName", FirstNameTextBox.Text)
+
+        DB.AddParam("LastName", LastNameTextBox.Text)
+        DB.AddParam("@Role", RoleComboBox.SelectedIndex)
+        ' Add Phone number later
+        DB.ExecuteQuery("SELECT * FROM Employee WHERE FirstName = ? AND LastName = ? AND Role = ?")
+
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("The same employee already exists.")
+            Return True
+        End If
+        Return False
+    End Function
+
+    Private Sub NewEmployeeForm_Load(sender As Object, e As EventArgs) Handles MyBase.Load
+
+        GenderComboBox.SelectedIndex = -1
+        RoleComboBox.SelectedIndex = -1
+
+    End Sub
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        Me.Close()
+    End Sub
+
+    Private Sub NewEmployeeForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        ClearForm()
+    End Sub
+
+    Private Sub RoleComboBox_SelectedIndexChanged(sender As Object, e As EventArgs) Handles RoleComboBox.SelectedIndexChanged
+
+    End Sub
+End Class
+
+Existing EmployeeForm Code:
+Imports System.ComponentModel
+Imports System.Text.RegularExpressions
+Public Class ExistingEmployeeForm
+    Private DB As New DBAccessClass
+    Private Sub ExistingEmployeeForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+        If String.IsNullOrEmpty(EmployeeForm.Employee_IDTextBox.Text) Then
+            MessageBox.Show("No employee is selected, try again")
+            Me.Close()
+        Else
+            Dim EmployeeID As Integer = EmployeeForm.Employee_IDTextBox.Text
+
+            DB.AddParam("@Employee_ID", EmployeeID)
+            DB.ExecuteQuery("select * from Employee where E_ID = ?")
+            If DB.Exception <> String.Empty Then
+                MessageBox.Show(DB.Exception)
+                Exit Sub
+            End If
+            'E_ID, , , Username, Password, Phone, Email_ID, DOB, , Shift_Schedule, Qualification, Active, Address_Line_1, Address_Line_2, City, District, State, Pincode, Created_On, Created_By, Updated_On, Updated_By, Role
+            Employee_IDTextBox.Text = DB.DBDataTable(0)("E_ID")
+            FirstNameTextBox.Text = DB.DBDataTable(0)!FirstName
+            LastNameTextBox.Text = DB.DBDataTable(0)!LastName
+
+            If IsDBNull(DB.DBDataTable(0)!Email_ID) Then
+                Email_IDTextBox.Text = String.Empty
+
+            Else
+                Email_IDTextBox.Text = DB.DBDataTable(0)!Email_ID
+            End If
+
+            PhoneTextBox.Text = DB.DBDataTable(0)!Phone
+            GenderComboBox.SelectedIndex = GenderComboBox.FindStringExact(DB.DBDataTable(0)("Gender"))
+            DOBDateTimePicker.Text = DB.DBDataTable(0)!DOB
+            ActiveCheckBox.Text = DB.DBDataTable(0)!Active
+            QualificationTextBox.Text = DB.DBDataTable(0)!Qualification
+            If IsDBNull(DB.DBDataTable(0)!Address_Line_1) Then
+                AddressLine1TextBox.Text = String.Empty
+
+            Else
+                AddressLine1TextBox.Text = DB.DBDataTable(0)!Address_Line_1
+            End If
+
+            If IsDBNull(DB.DBDataTable(0)!Address_Line_2) Then
+                AddressLine2TextBox.Text = String.Empty
+
+            Else
+                AddressLine2TextBox.Text = DB.DBDataTable(0)!Address_Line_2
+            End If
+
+CityTextBox.Text = DB.DBDataTable(0)!City
+            DistrictTextBox.Text = DB.DBDataTable(0)!District
+            StateTextBox.Text = DB.DBDataTable(0)!State
+            PincodeTextBox.Text = DB.DBDataTable(0)!Pincode
+            UserNameTextBox.Text = DB.DBDataTable(0)!Username
+            PasswordTextBox.Text = DB.DBDataTable(0)!Password
+            CreatedOnDateTimePicker.Text = DB.DBDataTable(0)!Created_On
+            RoleComboBox.SelectedIndex = RoleComboBox.FindStringExact(DB.DBDataTable(0)("Role"))
+
+            EnableFieldstoEdit(False)
+        End If
+    End Sub
+
+    Private Sub EnableFieldstoEdit(ToEdit As Boolean)
+
+        Employee_IDTextBox.ReadOnly = True
+        FirstNameTextBox.ReadOnly = Not ToEdit
+        LastNameTextBox.ReadOnly = Not ToEdit
+        PhoneTextBox.ReadOnly = Not ToEdit
+        Email_IDTextBox.ReadOnly = Not ToEdit
+        DOBDateTimePicker.Enabled = ToEdit
+        GenderComboBox.Enabled = ToEdit
+        ActiveCheckBox.Enabled = ToEdit
+        QualificationTextBox.ReadOnly = Not ToEdit
+        AddressLine1TextBox.ReadOnly = Not ToEdit
+        AddressLine2TextBox.ReadOnly = Not ToEdit
+        DistrictTextBox.ReadOnly = Not ToEdit
+        CityTextBox.ReadOnly = Not ToEdit
+        StateTextBox.ReadOnly = Not ToEdit
+        PincodeTextBox.ReadOnly = Not ToEdit
+        UserNameTextBox.ReadOnly = Not ToEdit
+        PasswordTextBox.ReadOnly = Not ToEdit
+        CreatedOnDateTimePicker.Enabled = False
+        RoleComboBox.Enabled = False
+
+        If ToEdit Then
+            EditSaveButton.Text = "&Save"
+        Else
+            EditSaveButton.Text = "&Edit"
+        End If
+    End Sub
+
+    Private Sub UpdateEmployee()
+
+        DB.AddParam("@FirstName", FirstNameTextBox.Text) '1st param
+        DB.AddParam("@LastName", LastNameTextBox.Text) '2nd param
+        DB.AddParam("@Phone", PhoneTextBox.Text) '3rd param
+        If String.IsNullOrWhiteSpace(Email_IDTextBox.Text) Then
+            DB.AddParam("@Email_ID", DBNull.Value) '
+        Else
+            DB.AddParam("@Email_ID", Email_IDTextBox.Text) '4th param
+        End If
+
+        DB.AddParam("@DOB", DOBDateTimePicker.Value) '5th param
+        DB.AddParam("@Gender", GenderComboBox.Text) '6th param
+        DB.AddParam("@Qualification", QualificationTextBox.Text) '7th param
+        DB.AddParam("@Active", ActiveCheckBox.Checked) '8th param
+        If String.IsNullOrWhiteSpace(AddressLine1TextBox.Text) Then
+            DB.AddParam("@Address_Line_1", DBNull.Value)
+        Else
+            DB.AddParam("@Address_Line_1", AddressLine1TextBox.Text) '9th param
+        End If
+
+        If String.IsNullOrWhiteSpace(AddressLine2TextBox.Text) Then
+            DB.AddParam("@Address_Line_2", DBNull.Value)
+        Else
+            DB.AddParam("@Address_Line_2", AddressLine2TextBox.Text) '10th param
+        End If
+        DB.AddParam("@City", CityTextBox.Text) '11th param
+        DB.AddParam("@District", DistrictTextBox.Text) '12th param
+        DB.AddParam("@State", StateTextBox.Text) '13th param
+        DB.AddParam("@Pincode", PincodeTextBox.Text) '14th param
+        DB.AddParam("@Username", UserNameTextBox.Text) '15th param
+        DB.AddParam("@Password", PasswordTextBox.Text) '16th param
+        'DB.AddParam("@Created_On", CreatedOnDateTimePicker.Value) '17th param
+        DB.AddParam("@Updated_By", "Manager") '18th param
+        DB.AddParam("@Role", RoleComboBox.Text) '19th param
+
+        DB.AddParam("@employee_id", Employee_IDTextBox.Text) '21th param
+
+        'E_ID, FirstName, LastName, Username, Password, Phone, Email_ID, DOB, Gender, Shift_Schedule, Qualification, Active, Address_Line_1, Address_Line_2, City, District, State, Pincode, Created_On, Created_By, Updated_On, Updated_By, Role
+
+        DB.ExecuteQuery("UPDATE Employee SET FirstName=?, LastName=?, Phone=?, Email_ID=?, DOB=?, Gender=?, Qualification=?, Active=?, Address_Line_1=?, Address_Line_2=?, City=?, District=?, State=?, Pincode=?, Username=?, Password=?, Updated_By=?, Role=? WHERE E_ID=?")
+
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show(DB.Exception)
+            Exit Sub
+        End If
+
+        MessageBox.Show("The employee#" & Employee_IDTextBox.Text & " 's record is updated successfully.")
+
+    End Sub
+Private Function DuplicateEmployee() As Boolean
+
+        DB.AddParam("FirstName", FirstNameTextBox.Text)
+
+        DB.AddParam("LastName", LastNameTextBox.Text)
+        DB.AddParam("@Phone", PhoneTextBox.Text)
+        ' Add Phone number later
+        DB.ExecuteQuery("SELECT * FROM Employee WHERE FirstName = ? AND LastName = ? AND Phone = ?")
+
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("The same employee already exists.")
+            Return False
+        End If
+        Return True
+    End Function
+    Private Function ValidExistingEmployeeData() As Boolean
+
+        '1Validate the FirstName field.
+        'Test if the FirstName is empty or not.
+
+        If String.IsNullOrWhiteSpace(FirstNameTextBox.Text) = True Then
+            MessageBox.Show("The firstname should Not be empty.")
+            FirstNameTextBox.SelectAll()
+            FirstNameTextBox.Focus()
+            Return False
+        End If
+
+        'Test if the FirstName is alphabetic or not
+        Dim rxFirstName As New Regex("^[A-Z]+[a-z]+$")
+        If rxFirstName.IsMatch(FirstNameTextBox.Text) = False Then
+            MessageBox.Show("FirstName must be alphabets and start with an upper case letter.")
+            FirstNameTextBox.SelectAll()
+            FirstNameTextBox.Focus()
+            Return False
+        End If
+
+        '2 Validate the LastName field.
+        'Test if the LastName is empty or not.
+        If String.IsNullOrWhiteSpace(LastNameTextBox.Text) = True Then
+            MessageBox.Show("The LastName should not be empty.")
+            LastNameTextBox.SelectAll()
+            LastNameTextBox.Focus()
+            Return False
+        End If
+
+        '2 Test if the LastName is alphabetic or not
+        Dim rxLastName As New Regex("^[A-Z]+[a-z]+$")
+        If rxLastName.IsMatch(LastNameTextBox.Text) = False Then
+            MessageBox.Show("LastName must be alphabets and start with an upper case letter.")
+            LastNameTextBox.SelectAll()
+            LastNameTextBox.Focus()
+            Return False
+        End If
+
+        ' 3 Validate Phone input 
+        ' Test if phone number is empty
+        If String.IsNullOrWhiteSpace(PhoneTextBox.Text) Then
+            MessageBox.Show("Phone Number Cannot be Empty. ")
+            PhoneTextBox.SelectAll()
+            PhoneTextBox.Focus()
+            Return False
+        End If
+
+        'Test if Phone Number follows the right patterns
+        Dim rxPhoneNumber As New Regex("^1?[-\. ]?(\(\d{3}\)?[-\. ]?|\d{3}?[-\. ]?)?\d{3}?[-\. ]?\d{4}$")
+        If Not rxPhoneNumber.IsMatch(PhoneTextBox.Text) Then
+            MessageBox.Show("Phone Number Must Follow the Right Format Such As (AreaCode XXX XXXX)")
+            PhoneTextBox.SelectAll()
+            PhoneTextBox.Focus()
+            Return False
+        End If
+
+        '4 Test if Email_ID is valid.
+        Dim rxEmail_ID As New Regex("[a-zA-Z0-9_.+-]+@[a-zA-Z0-9-]+\.[a-zA-Z0-9-.]+")
+        If String.IsNullOrEmpty(Email_IDTextBox.Text) = False Then
+            If rxEmail_ID.IsMatch(Email_IDTextBox.Text) = False Then
+                MessageBox.Show("Email_ID must follow the right format such as abc@xyz.com.")
+                Email_IDTextBox.SelectAll()
+                Email_IDTextBox.Focus()
+                Return False
+            End If
+        Else
+        End If
+
+        ' Validate the Gender field.
+        If GenderComboBox.SelectedIndex = -1 Then
+            MessageBox.Show("gender must be selected")
+            GenderComboBox.SelectAll()
+            GenderComboBox.Focus()
+            Return False
+        End If
+
+        'Validate the Qualification field.
+        If String.IsNullOrWhiteSpace(QualificationTextBox.Text) = True Then
+            MessageBox.Show("The Qualification should Not be empty.")
+            QualificationTextBox.SelectAll()
+            QualificationTextBox.Focus()
+            Return False
+        End If
+
+        'Test if the Qualification is alphabetic or not
+        Dim rxQualification As New Regex("^[A-Z]+[a-z]+$")
+        If rxQualification.IsMatch(QualificationTextBox.Text) = False Then
+            MessageBox.Show("Qualification must be alphabets and start with an upper case letter.")
+            QualificationTextBox.SelectAll()
+            QualificationTextBox.Focus()
+            Return False
+        End If
+
+        'Username must be text only
+        Dim rxUserName As New Regex("^[A-Z]+[a-z]+$")
+        If rxUserName.IsMatch(UserNameTextBox.Text) = False Then
+            MessageBox.Show("UserName must be alphabets and start with an upper case letter.")
+            UserNameTextBox.SelectAll()
+            UserNameTextBox.Focus()
+            Return False
+        End If
+
+
+        '10 UserName cannot be empty
+        If String.IsNullOrWhiteSpace(UserNameTextBox.Text) Then
+            MessageBox.Show("UserName cannot be empty.")
+            UserNameTextBox.SelectAll()
+            UserNameTextBox.Focus()
+            Return False
+        End If
+'11 Validate Password
+        Dim regexPattern As New Regex("^(?=.*[a-z])(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$")
+        If regexPattern.IsMatch(PasswordTextBox.Text) = False Then
+            MessageBox.Show("Password must follow the right format. > Must be at least 8 characters long > Must contain at least one uppercase letter > Must contain at least one lowercase letter > Must contain at least one digit > Must contain at least one special character from the set @$!%*?&")
+            PasswordTextBox.SelectAll()
+            PasswordTextBox.Focus()
+            Return False
+        End If
+
+        'Password cannot be empty
+        If String.IsNullOrWhiteSpace(PasswordTextBox.Text) Then
+            MessageBox.Show("Password cannot be empty.")
+            PasswordTextBox.SelectAll()
+            PasswordTextBox.Focus()
+            Return False
+        End If
+
+        '5 Validate the AddressLine1 field
+        'step 2 AddressLine1 must be in specific format
+
+        If String.IsNullOrWhiteSpace(AddressLine1TextBox.Text) Then
+            MessageBox.Show("Adress line 1 cannot be empty.")
+            AddressLine1TextBox.SelectAll()
+            AddressLine1TextBox.Focus()
+            Return False
+        End If
+
+        Dim rxAddressLine1 As New Regex("^[A-Za-z#,-]+$")
+        If rxAddressLine1.IsMatch(AddressLine1TextBox.Text) Then
+            MessageBox.Show("AddressLine1 must be in specific format.")
+            AddressLine1TextBox.SelectAll()
+            AddressLine1TextBox.Focus()
+            Return False
+        End If
+
+        If String.IsNullOrWhiteSpace(AddressLine2TextBox.Text) Then
+            MessageBox.Show("Adress line 2 cannot be empty.")
+            AddressLine2TextBox.SelectAll()
+            AddressLine2TextBox.Focus()
+            Return False
+        End If
+
+        '6 Validate the AddressLine2 field
+        'step 2 AddressLine2 must be in specific format
+        Dim rxAddressLine2 As New Regex("^[A-Za-z0-9#,-]+$")
+        If rxAddressLine2.IsMatch(AddressLine2TextBox.Text) Then
+            MessageBox.Show("AddressLine2 must be in specific format.")
+            AddressLine2TextBox.SelectAll()
+            AddressLine2TextBox.Focus()
+            Return False
+        End If
+
+        '7 Test if city is not empty
+        If String.IsNullOrWhiteSpace(CityTextBox.Text) Then
+            MessageBox.Show("City cannot be empty.")
+            CityTextBox.SelectAll()
+            CityTextBox.Focus()
+            Return False
+        End If
+
+        Dim rxcity As New Regex("^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$")
+        If Not rxcity.IsMatch(CityTextBox.Text) Then
+            MessageBox.Show("City can only have alphabets starting with uppercase.")
+            CityTextBox.SelectAll()
+            CityTextBox.Focus()
+            Return False
+        End If
+
+        '8 Test if District is not empty
+        If String.IsNullOrWhiteSpace(DistrictTextBox.Text) Then
+            MessageBox.Show("District cannot be empty.")
+            DistrictTextBox.SelectAll()
+            DistrictTextBox.Focus()
+            Return False
+        End If
+
+        Dim rxdistrict As New Regex("^([a-zA-Z\u0080-\u024F]+(?:. |-| |'))*[a-zA-Z\u0080-\u024F]*$")
+        If Not rxdistrict.IsMatch(DistrictTextBox.Text) Then
+            MessageBox.Show("District can only have alphabets starting with uppercase.")
+            DistrictTextBox.SelectAll()
+            DistrictTextBox.Focus()
+            Return False
+        End If
+
+        ' 8 Test if State is not empty
+        If String.IsNullOrWhiteSpace(StateTextBox.Text) Then
+            MessageBox.Show("State cannot be empty.")
+            StateTextBox.SelectAll()
+            StateTextBox.Focus()
+            Return False
+        End If
+
+        '9 Validate pincode field.
+        'Test if pincode is not empty 
+        If String.IsNullOrWhiteSpace(PincodeTextBox.Text) Then
+            MessageBox.Show("Pincode cannot be empty.")
+            PincodeTextBox.SelectAll()
+            PincodeTextBox.Focus()
+            Return False
+        End If
+        Dim rxpincode As New Regex("^[1-9][0-9]{6}\s{0,1}[0-9]{3}$")
+        If rxpincode.IsMatch(PincodeTextBox.Text) Then
+            MessageBox.Show("pincode must have 6 digit.")
+            PincodeTextBox.SelectAll()
+            PincodeTextBox.Focus()
+            Return False
+        End If
+
+        ' Test if pincode can converted to integer
+        Dim pincodeInteger As Integer 'Declare pincode Variable
+        If Integer.TryParse(PincodeTextBox.Text, pincodeInteger) = False Then
+            MessageBox.Show("Pincode should be an integer")
+            PincodeTextBox.SelectAll()
+            PincodeTextBox.Focus()
+            Return False
+        End If
+
+
+        'Validate role 
+        If RoleComboBox.SelectedIndex = -1 Then
+            MessageBox.Show("role should be selected")
+            RoleComboBox.SelectAll()
+            RoleComboBox.Focus()
+            Return False
+        End If
+        Return True
+    End
+Private Sub ClearForm()
+        FirstNameTextBox.Clear()
+        LastNameTextBox.Clear()
+        PhoneTextBox.Clear()
+        Email_IDTextBox.Clear()
+        DOBDateTimePicker.Value = Today.Date
+        GenderComboBox.SelectedValue = False
+        QualificationTextBox.Clear()
+        ActiveCheckBox.Checked = True
+        ActiveCheckBox.Enabled = False
+        AddressLine1TextBox.Clear()
+        AddressLine2TextBox.Clear()
+        DistrictTextBox.Clear()
+        CityTextBox.Clear()
+        StateTextBox.Clear()
+        PincodeTextBox.Clear()
+        UserNameTextBox.Clear()
+        PasswordTextBox.Clear()
+        CreatedOnDateTimePicker.Value = Today.Date
+        RoleComboBox.SelectedValue = False
+    End Sub
+
+    Private Sub EditSaveButton_Click(sender As Object, e As EventArgs) Handles EditSaveButton.Click
+        If EditSaveButton.Text = "&Edit" Then
+            'edit mode
+            'release fields for editing
+            EnableFieldstoEdit(True)
+        Else
+            'save mode
+            'save employee updates
+            If ValidExistingEmployeeData() Then
+                UpdateEmployee()
+                EmployeeForm.SearchEmployee(EmployeeForm.FirstNameTextBox.Text, EmployeeForm.LastNameTextBox.Text, EmployeeForm.RoleComboBox.Text)
+                EnableFieldstoEdit(False)
+                Me.Close()
+            End If
+
+        End If
+    End Sub
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        Me.Close()
+    End Sub
+
+    Private Sub ExistingEmployeeForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+        ClearForm()
+    End Sub
+
+End Class
+
+NurseForm Code:
+
+Imports System.Text.RegularExpressions
+Public Class NurseForm
+    Private DB As New DBAccessClass
+    Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        If ValidNewNurseData() = False Then ' validation of data
+            Exit Sub
+        ElseIf DuplicateNurse() = True Then 'higher level duplicate validation
+            Exit Sub
+        End If
+        AddNurse()
+        Me.Close()
+    End Sub
+
+    Private Sub AddNurse()
+
+        Dim EID As String = NewEmployeeForm.EmployeeLabel.Text
+        If EID = "Employee" Then
+            MessageBox.Show("Employee ID was not retrived")
+            Exit Sub
+        Else
+            DB.AddParam("@E_ID", EIDTextBox.Text) '1st param
+            DB.AddParam("@License_Number", LicenceNumberTextBox.Text) '2nd param
+            DB.ExecuteQuery("INSERT INTO Nurse(E_ID, License_Number) VALUES(?, ?)")
+        End If
+    End Sub
+
+    Private Function DuplicateNurse() As Boolean
+        DB.AddParam("E_ID", EIDTextBox.Text)
+        DB.AddParam("LicenceNumber", LicenceNumberTextBox.Text)
+        DB.ExecuteQuery("SELECT * FROM Nurse WHERE E_ID = ? AND License_Number = ?")
+
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("The same Nurse already exists.")
+            Return True
+        End If
+        Return False
+
+    End Function
+
+    Private Function ValidNewNurseData() As Boolean
+        If String.IsNullOrWhiteSpace(LicenceNumberTextBox.Text) Then
+            MessageBox.Show("Licence Number Cannot be Empty. ")
+            LicenceNumberTextBox.SelectAll()
+            LicenceNumberTextBox.Focus()
+            Return False
+        End If
+
+        Dim rxLicenceNumber As New Regex("[A-Z0-9]+")
+        If rxLicenceNumber.IsMatch(LicenceNumberTextBox.Text) Then
+            MessageBox.Show("LicenceNumber must be in specific format. First 1alphabet state medical council > next 2 digits registration granted year > next 4 digits unique identification number (N556718)")
+            LicenceNumberTextBox.SelectAll()
+            LicenceNumberTextBox.Focus()
+            Return False
+        End If
+    End Function
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        Me.Close()
+    End Sub
+
+    Private Sub NurseForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+        EIDTextBox.Text = NewEmployeeForm.EmployeeLabel.Text
+    End Sub
+End Class
+
+Administrator code:
+
+Public Class AdministratorForm
+    Private DB As New DBAccessClass
+    Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        If ValidNewAdministratorData() = False Then ' validation of data
+            Exit Sub
+        ElseIf DuplicateAdministrator() = True Then 'higher level duplicate validation
+            Exit Sub
+        End If
+        AddAdministrator()
+        Me.Close()
+    End Sub
+
+    Private Sub AddAdministrator()
+
+        Dim EID As String = NewEmployeeForm.EmployeeLabel.Text
+        If EID = "Employee" Then
+            MessageBox.Show("Employee ID was not retrived")
+            Exit Sub
+        Else
+            DB.AddParam("@E_ID", EIDTextBox.Text) '1st param
+            DB.AddParam("@Type", TypeListBox.Text) '2nd param
+            DB.AddParam("@Permissions", PermisionsListBox.Text) '3rd param
+            DB.ExecuteQuery("INSERT INTO Administrator(E_ID, Type_Role, Permissions) VALUES(?, ?, ?)")
+        End If
+    End Sub
+
+    Private Sub Administrator(sender As Object, e As EventArgs) Handles Me.Load
+        ''If String.IsNullOrEmpty(PermisionsListBox.Items) Then
+        ''    MessageBox.Show("No Permission is selected, please try again.")
+        ''    Me.Close()
+        ''Else
+        PermisionsListBox.Items.Clear()
+        PermisionsListBox.Items.Add("All")
+        PermisionsListBox.Items.Add("Create User Accounts")
+        PermisionsListBox.Items.Add("Modify System Settings")
+        PermisionsListBox.Items.Add("Security Access")
+
+
+        Dim TypeRole As List(Of String) = New List(Of String) From {"Super Admin", "Admin", "System Admin"}
+
+        TypeListBox.DataSource = TypeRole
+
+        If Not IsDBNull(DB.DBDataTable(0)!TypeRole) Then
+            TypeListBox.SelectedItem = DB.DBDataTable(0)!TypeRole
+        Else
+            TypeListBox.SelectedIndex = -1
+            ' clear the Type of Role selection
+        End If
+
+        EIDTextBox.Text = NewEmployeeForm.EmployeeLabel.Text
+
+    End Sub
+
+    Private Function DuplicateAdministrator() As Boolean
+        DB.AddParam("E_ID", EIDTextBox.Text)
+        DB.AddParam("Type", TypeListBox.Text)
+        DB.AddParam("@Permissions", PermisionsListBox.Text)
+        DB.ExecuteQuery("SELECT * FROM Administrator WHERE E_ID = ? AND Type = ? AND Permissions = ?")
+
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("The same Administrator already exists.")
+            Return True
+        End If
+        Return False
+    End Function
+
+    Private Function Permissions() As String
+        Dim Permission As String = String.Empty
+        For i As Integer = 0 To PermisionsListBox.SelectedItems.Count - 1
+            If (Permission <> String.Empty) Then
+                Permission = Permission & "," & PermisionsListBox.SelectedItems(i).ToString
+            Else
+                Permission = PermisionsListBox.SelectedItems(i).ToString()
+            End If
+        Next
+        Return Permission
+    End Function
+
+    Private Function ValidNewAdministratorData() As Boolean
+        If TypeListBox.SelectedIndex = -1 Then
+            MessageBox.Show("Role Type should be selected")
+            'TypeListBox.SelectAll()
+            TypeListBox.Focus()
+            Return False
+        End If
+
+    End Function
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        'ClearForm
+        Me.Close()
+    End Sub
+
+End Class
+
+Doctor Form Code:
+
+Imports System.Text.RegularExpressions
+Public Class DoctorForm
+    Private DB As New DBAccessClass
+    Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        If ValidNewDoctorData() = False Then ' validation of data
+            Exit Sub
+        ElseIf DuplicateDoctor() = True Then 'higher level duplicate validation
+            Exit Sub
+        End If
+        AddDoctor()
+        Me.Close()
+    End Sub
+
+    Private Sub AddDoctor()
+
+        Dim EID As String = NewEmployeeForm.EmployeeLabel.Text
+        If EID = "Employee" Then
+            MessageBox.Show("Employee ID was not retrived")
+            Exit Sub
+        Else
+            DB.AddParam("@E_ID", EIDTextBox.Text) '1st param
+            DB.AddParam("@License_Number", LicenceNumberTextBox.Text) '2nd param
+            DB.AddParam("@Specialization", SpecializationComboBox.Text) '3rd param
+            DB.AddParam("@Current_Available", CurrentlyAvailableComboBox.Text) '4th param
+            DB.ExecuteQuery("INSERT INTO Doctor(E_ID, License_Number, Specialization, Current_Available) VALUES(?, ?, ?, ?)")
+
+            If DB.Exception <> String.Empty Then
+                MessageBox.Show(DB.Exception)
+                Exit Sub
+            Else
+                MessageBox.Show("A New Doctor with license number" & LicenceNumberTextBox.Text & "is added successfully.")
+            End If
+
+        End If
+    End Sub
+
+    Private Function DuplicateDoctor() As Boolean
+        DB.AddParam("E_ID", EIDTextBox.Text)
+        DB.AddParam("LicenceNumber", LicenceNumberTextBox.Text)
+        DB.ExecuteQuery("SELECT * FROM Doctor WHERE E_ID = ? AND License_Number = ?")
+
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("The same Doctor already exists.")
+            Return True
+        End If
+        Return False
+
+    End Function
+
+
+    Private Function ValidNewDoctorData() As Boolean
+        If String.IsNullOrWhiteSpace(LicenceNumberTextBox.Text) Then
+            MessageBox.Show("Licence Number Cannot be Empty. ")
+            LicenceNumberTextBox.SelectAll()
+            LicenceNumberTextBox.Focus()
+            Return False
+        End If
+
+
+        Dim rxLicenceNumber As New Regex("^[A-Z]{2,3}[0-9]{4,8}$")
+        If rxLicenceNumber.IsMatch(LicenceNumberTextBox.Text) Then
+            MessageBox.Show("LicenceNumber must be in specific format. First 3 alphabets of state medical council > next 2 digits registration granted year > next 4 digits unique identification number > last digit for authenticity of registration number (Example AND9512349)")
+            LicenceNumberTextBox.SelectAll()
+            LicenceNumberTextBox.Focus()
+            Return False
+        End If
+
+        If SpecializationComboBox.SelectedIndex = -1 Then
+            MessageBox.Show("Specialization should be selected")
+            SpecializationComboBox.SelectAll()
+            SpecializationComboBox.Focus()
+            Return False
+        End If
+
+        If CurrentlyAvailableComboBox.SelectedIndex = -1 Then
+            MessageBox.Show("Currently Available should be selected")
+            CurrentlyAvailableComboBox.SelectAll()
+            CurrentlyAvailableComboBox.Focus()
+            Return False
+        End If
+        Return True
+    End Function
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        Me.Close()
+    End Sub
+
+    Private Sub DoctorForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+        EIDTextBox.Text = NewEmployeeForm.EmployeeLabel.Text
+    End Sub
+End Class
+
+ReceptionistForm Code:
+
+Imports System.Text.RegularExpressions
+Public Class ReceptionistForm
+    Private DB As New DBAccessClass
+    Private Sub SaveButton_Click(sender As Object, e As EventArgs) Handles SaveButton.Click
+        If ValidNewReceptionistData() = False Then ' validation of data
+            Exit Sub
+        ElseIf DuplicateReceptionist() = True Then 'higher level duplicate validation
+            Exit Sub
+        End If
+        AddReceptionist()
+        Me.Close()
+    End Sub
+
+    Private Sub AddReceptionist()
+        Dim EID As String = NewEmployeeForm.EmployeeLabel.Text
+        If EID = String.Empty Then
+            MessageBox.Show("Employee ID was not retrieved")
+            Exit Sub
+        Else
+            DB.AddParam("@E_ID", EIDTextBox.Text) '1st param
+            DB.AddParam("@Language_Skills", LanguageskillsTextBox.Text) '2nd param
+            DB.AddParam("@Computer_Skills", ComputerSkillsTextBox.Text) '3rd param
+            DB.ExecuteQuery("INSERT INTO Employee(E_ID, Language_Skills, Computer_Skills) VALUES(?, ?, ?)")
+        End If
+    End Sub
+
+    Private Function DuplicateReceptionist() As Boolean
+        DB.AddParam("E_ID", EIDTextBox.Text)
+        DB.ExecuteQuery("SELECT * FROM Receptionist WHERE E_ID = ?;")
+
+        If DB.RecordCount > 0 Then
+            MessageBox.Show("The same Receptionist already exists.")
+            Return True
+        End If
+        Return False
+
+    End Function
+
+    Private Function ValidNewReceptionistData() As Boolean
+        Dim rxLanguageskill As New Regex("^[A-Z]+[a-z]+$")
+        If rxLanguageskill.IsMatch(LanguageskillsTextBox.Text) = False Then
+            MessageBox.Show("Language Skills must not be empty and start with an upper case letter.")
+            LanguageskillsTextBox.SelectAll()
+            LanguageskillsTextBox.Focus()
+            Return False
+        End If
+
+        If String.IsNullOrWhiteSpace(ComputerSkillsTextBox.Text) Then
+            MessageBox.Show("Computer Skills Cannot be Empty. ")
+            ComputerSkillsTextBox.SelectAll()
+            ComputerSkillsTextBox.Focus()
+            Return False
+        End If
+
+        Dim rxUserName As New Regex("^[A-Z]+[a-z]+$")
+        If rxUserName.IsMatch(ComputerSkillsTextBox.Text) = False Then
+            MessageBox.Show("Computer Skills must be alphabets and start with an upper case letter.")
+            ComputerSkillsTextBox.SelectAll()
+            ComputerSkillsTextBox.Focus()
+            Return False
+        End If
+
+    End Function
+
+    Private Sub CancelButton_Click(sender As Object, e As EventArgs) Handles CancelButton.Click
+        'ClearForm
+        Me.Close()
+    End Sub
+
+    Private Sub ReceptionistForm_Load(sender As Object, e As EventArgs) Handles Me.Load
+        EIDTextBox.Text = NewEmployeeForm.EmployeeLabel.Text
+    End Sub
+End Class
