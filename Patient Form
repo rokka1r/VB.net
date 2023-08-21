@@ -1,0 +1,1929 @@
+Patient Form: 
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class PatientsForm
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.DBDataGridView = New System.Windows.Forms.DataGridView()
+        Me.GroupBox1 = New System.Windows.Forms.GroupBox()
+        Me.PatientIDTextBox = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.LastNameTextBox = New System.Windows.Forms.TextBox()
+        Me.Label2 = New System.Windows.Forms.Label()
+       Me.FirstNameTextBox = New System.Windows.Forms.TextBox()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.StatusStrip1 = New System.Windows.Forms.StatusStrip()
+        Me.RecordNumberToolStripStatusLabel = New System.Windows.Forms.ToolStripStatusLabel()
+        Me.MenuStrip1 = New System.Windows.Forms.MenuStrip()
+        Me.PatientToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.NewToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.EditToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        Me.DeleteToolStripMenuItem = New System.Windows.Forms.ToolStripMenuItem()
+        CType(Me.DBDataGridView, System.ComponentModel.ISupportInitialize).BeginInit()
+        Me.GroupBox1.SuspendLayout()
+        Me.StatusStrip1.SuspendLayout()
+        Me.MenuStrip1.SuspendLayout()
+        Me.SuspendLayout()
+        '
+        'DBDataGridView
+        '
+        Me.DBDataGridView.Anchor = CType((((System.Windows.Forms.AnchorStyles.Top Or System.Windows.Forms.AnchorStyles.Bottom) _
+            Or System.Windows.Forms.AnchorStyles.Left) _
+            Or System.Windows.Forms.AnchorStyles.Right), System.Windows.Forms.AnchorStyles)
+        Me.DBDataGridView.ColumnHeadersHeightSizeMode = System.Windows.Forms.DataGridViewColumnHeadersHeightSizeMode.AutoSize
+        Me.DBDataGridView.Location = New System.Drawing.Point(15, 110)
+        Me.DBDataGridView.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.DBDataGridView.Name = "DBDataGridView"
+        Me.DBDataGridView.RowHeadersWidth = 51
+        Me.DBDataGridView.RowTemplate.Height = 29
+        Me.DBDataGridView.Size = New System.Drawing.Size(948, 539)
+        Me.DBDataGridView.TabIndex = 2
+        '
+        'GroupBox1
+      Me.GroupBox1.Controls.Add(Me.PatientIDTextBox)
+        Me.GroupBox1.Controls.Add(Me.Label3)
+        Me.GroupBox1.Controls.Add(Me.LastNameTextBox)
+        Me.GroupBox1.Controls.Add(Me.Label2)
+        Me.GroupBox1.Controls.Add(Me.FirstNameTextBox)
+        Me.GroupBox1.Controls.Add(Me.Label1)
+        Me.GroupBox1.Location = New System.Drawing.Point(15, 39)
+        Me.GroupBox1.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Name = "GroupBox1"
+        Me.GroupBox1.Padding = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.GroupBox1.Size = New System.Drawing.Size(948, 64)
+        Me.GroupBox1.TabIndex = 3
+        Me.GroupBox1.TabStop = False
+        Me.GroupBox1.Text = "Search"
+        '
+        'PatientIDTextBox
+        '
+        Me.PatientIDTextBox.Location = New System.Drawing.Point(769, 22)
+        Me.PatientIDTextBox.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.PatientIDTextBox.Name = "PatientIDTextBox"
+        Me.PatientIDTextBox.Size = New System.Drawing.Size(63, 31)
+        Me.PatientIDTextBox.TabIndex = 5
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.Location = New System.Drawing.Point(670, 26)
+        Me.Label3.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(88, 25)
+        Me.Label3.TabIndex = 4
+        Me.Label3.Text = "Patient ID"
+        '
+        'LastNameTextBox
+        '
+        Me.LastNameTextBox.Location = New System.Drawing.Point(465, 22)
+        Me.LastNameTextBox.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.LastNameTextBox.Name = "LastNameTextBox"
+        Me.LastNameTextBox.Size = New System.Drawing.Size(155, 31)
+        Me.LastNameTextBox.TabIndex = 3
+          '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.Location = New System.Drawing.Point(358, 29)
+        Me.Label2.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(95, 25)
+        Me.Label2.TabIndex = 2
+        Me.Label2.Text = "Last Name"
+        '
+        'FirstNameTextBox
+        '
+        Me.FirstNameTextBox.Location = New System.Drawing.Point(168, 22)
+        Me.FirstNameTextBox.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.FirstNameTextBox.Name = "FirstNameTextBox"
+        Me.FirstNameTextBox.Size = New System.Drawing.Size(155, 31)
+        Me.FirstNameTextBox.TabIndex = 1
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.Location = New System.Drawing.Point(60, 29)
+        Me.Label1.Margin = New System.Windows.Forms.Padding(4, 0, 4, 0)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(97, 25)
+        Me.Label1.TabIndex = 0
+        Me.Label1.Text = "First Name"
+        '
+        'StatusStrip1
+        '
+        Me.StatusStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.StatusStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.RecordNumberToolStripStatusLabel})
+        Me.StatusStrip1.Location = New System.Drawing.Point(0, 659)
+        Me.StatusStrip1.Name = "StatusStrip1"
+        Me.StatusStrip1.Padding = New System.Windows.Forms.Padding(1, 0, 18, 0)
+        Me.StatusStrip1.Size = New System.Drawing.Size(978, 32)
+        Me.StatusStrip1.TabIndex = 4
+        Me.StatusStrip1.Text = "StatusStrip1"
+        '
+        'RecordNumberToolStripStatusLabel
+        '
+        Me.RecordNumberToolStripStatusLabel.Name = "RecordNumberToolStripStatusLabel"
+        Me.RecordNumberToolStripStatusLabel.Size = New System.Drawing.Size(180, 25)
+        Me.RecordNumberToolStripStatusLabel.Text = "ToolStripStatusLabel1"
+        '
+        'MenuStrip1
+        '
+        Me.MenuStrip1.ImageScalingSize = New System.Drawing.Size(20, 20)
+        Me.MenuStrip1.Items.AddRange(New System.Windows.Forms.ToolStripItem() {Me.PatientToolStripMenuItem})
+        Me.MenuStrip1.Location = New System.Drawing.Point(0, 0)
+        Me.MenuStrip1.Name = "MenuStrip1"
+        Me.MenuStrip1.Padding = New System.Windows.Forms.Padding(8, 2, 0, 2)
+        Me.MenuStrip1.Size = New System.Drawing.Size(978, 33)
+        Me.MenuStrip1.TabIndex = 5
+        Me.MenuStrip1.Text = "MenuStrip1"
+        '
+        'PatientToolStripMenuItem
+        '
+        Me.PatientToolStripMenuItem.DropDownItems.AddRange(New System.Windows.Forms.ToolStripItem() {Me.NewToolStripMenuItem, Me.EditToolStripMenuItem, Me.DeleteToolStripMenuItem})
+        Me.PatientToolStripMenuItem.Name = "PatientToolStripMenuItem"
+        Me.PatientToolStripMenuItem.Size = New System.Drawing.Size(81, 29)
+        Me.PatientToolStripMenuItem.Text = "Patient"
+        '
+        'NewToolStripMenuItem
+        '
+        Me.NewToolStripMenuItem.Name = "NewToolStripMenuItem"
+        Me.NewToolStripMenuItem.Size = New System.Drawing.Size(270, 34)
+        Me.NewToolStripMenuItem.Text = "New"
+        '
+        'EditToolStripMenuItem
+        '
+        Me.EditToolStripMenuItem.Name = "EditToolStripMenuItem"
+        Me.EditToolStripMenuItem.Size = New System.Drawing.Size(270, 34)
+        Me.EditToolStripMenuItem.Text = "Edit"
+        '
+        'DeleteToolStripMenuItem
+        '
+        Me.DeleteToolStripMenuItem.Name = "DeleteToolStripMenuItem"
+        Me.DeleteToolStripMenuItem.Size = New System.Drawing.Size(270, 34)
+        Me.DeleteToolStripMenuItem.Text = "Delete"
+        '
+        'PatientsForm
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(10.0!, 25.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.ClientSize = New System.Drawing.Size(978, 691)
+        Me.Controls.Add(Me.StatusStrip1)
+        Me.Controls.Add(Me.MenuStrip1)
+        Me.Controls.Add(Me.GroupBox1)
+        Me.Controls.Add(Me.DBDataGridView)
+        Me.MainMenuStrip = Me.MenuStrip1
+        Me.Margin = New System.Windows.Forms.Padding(4, 4, 4, 4)
+        Me.Name = "PatientsForm"
+        Me.Text = "Government General Hospital"
+        CType(Me.DBDataGridView, System.ComponentModel.ISupportInitialize).EndInit()
+        Me.GroupBox1.ResumeLayout(False)
+        Me.GroupBox1.PerformLayout()
+        Me.StatusStrip1.ResumeLayout(False)
+        Me.StatusStrip1.PerformLayout()
+        Me.MenuStrip1.ResumeLayout(False)
+        Me.MenuStrip1.PerformLayout()
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+
+  Friend WithEvents DBDataGridView As DataGridView
+    Friend WithEvents GroupBox1 As GroupBox
+    Friend WithEvents PatientIDTextBox As TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents LastNameTextBox As TextBox
+    Friend WithEvents Label2 As Label
+    Friend WithEvents FirstNameTextBox As TextBox
+    Friend WithEvents Label1 As Label
+    Friend WithEvents StatusStrip1 As StatusStrip
+    Friend WithEvents RecordNumberToolStripStatusLabel As ToolStripStatusLabel
+    Friend WithEvents MenuStrip1 As MenuStrip
+    Friend WithEvents PatientToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents NewToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents EditToolStripMenuItem As ToolStripMenuItem
+    Friend WithEvents DeleteToolStripMenuItem As ToolStripMenuItem
+End Class
+
+New Patient Form:
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class NewPatientForm
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.PhoneTextBox = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.LastNameTextBox = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.FirstNameTextBox = New System.Windows.Forms.TextBox()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.AddressLine1TextBox = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.PreviousMedicalConditionsTextBox = New System.Windows.Forms.TextBox()
+        Me.CityTextBox = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.StateTextBox = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.DistrictTextBox = New System.Windows.Forms.TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.OccupationTextBox = New System.Windows.Forms.TextBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.CurrentMedicationTextbox = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.PincodeTextbox = New System.Windows.Forms.TextBox()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.SaveButton = New System.Windows.Forms.Button()
+        Me.CancelButton = New System.Windows.Forms.Button()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.DOBDateTimePicker = New System.Windows.Forms.DateTimePicker()
+        Me.AddressLine2TextBox = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.AllergiesTextBox = New System.Windows.Forms.TextBox()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.PastSurgeriesTextBox = New System.Windows.Forms.TextBox()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.CreatedByTextBox = New System.Windows.Forms.TextBox()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.SocialHabitsTextBox = New System.Windows.Forms.TextBox()
+        Me.BloodGroupComboBox = New System.Windows.Forms.ComboBox()
+        Me.GenderComboBox = New System.Windows.Forms.ComboBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.EIDTextBox = New System.Windows.Forms.TextBox()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.UserNameLabel = New System.Windows.Forms.Label()
+        Me.RoleLabel = New System.Windows.Forms.Label()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.Label38 = New System.Windows.Forms.Label()
+        Me.Label39 = New System.Windows.Forms.Label()
+        Me.Label40 = New System.Windows.Forms.Label()
+        Me.Label41 = New System.Windows.Forms.Label()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.SuspendLayout()
+        '
+        'PhoneTextBox
+        '
+        Me.PhoneTextBox.Location = New System.Drawing.Point(143, 127)
+        Me.PhoneTextBox.MaxLength = 50
+        Me.PhoneTextBox.Name = "PhoneTextBox"
+        Me.PhoneTextBox.Size = New System.Drawing.Size(107, 23)
+        Me.PhoneTextBox.TabIndex = 60
+        '
+        'Label7
+     Me.Label7.AutoSize = True
+        Me.Label7.BackColor = System.Drawing.Color.Transparent
+        Me.Label7.Location = New System.Drawing.Point(84, 129)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(44, 15)
+        Me.Label7.TabIndex = 59
+        Me.Label7.Text = "Phone:"
+        '
+        'LastNameTextBox
+        '
+        Me.LastNameTextBox.Location = New System.Drawing.Point(143, 92)
+        Me.LastNameTextBox.MaxLength = 45
+        Me.LastNameTextBox.Name = "LastNameTextBox"
+        Me.LastNameTextBox.Size = New System.Drawing.Size(145, 23)
+        Me.LastNameTextBox.TabIndex = 58
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Transparent
+        Me.Label5.Location = New System.Drawing.Point(63, 95)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(66, 15)
+        Me.Label5.TabIndex = 57
+        Me.Label5.Text = "Last Name:"
+        '
+        'FirstNameTextBox
+        '
+        Me.FirstNameTextBox.Location = New System.Drawing.Point(143, 57)
+        Me.FirstNameTextBox.MaxLength = 45
+        Me.FirstNameTextBox.Name = "FirstNameTextBox"
+        Me.FirstNameTextBox.Size = New System.Drawing.Size(147, 23)
+        Me.FirstNameTextBox.TabIndex = 56
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Location = New System.Drawing.Point(59, 57)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(67, 15)
+        Me.Label3.TabIndex = 55
+        Me.Label3.Text = "First Name:"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.Location = New System.Drawing.Point(84, 161)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(48, 15)
+        Me.Label1.TabIndex = 61
+        Me.Label1.Text = "Gender:"
+        '
+        'Label2
+        '
+        Me.Label2.AutoSize = True
+        Me.Label2.BackColor = System.Drawing.Color.Transparent
+        Me.Label2.Location = New System.Drawing.Point(53, 195)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(76, 15)
+        Me.Label2.TabIndex = 63
+        Me.Label2.Text = "Date of Birth:"
+        '
+        'AddressLine1TextBox
+        '
+        Me.AddressLine1TextBox.Location = New System.Drawing.Point(543, 152)
+        Me.AddressLine1TextBox.MaxLength = 45
+        Me.AddressLine1TextBox.Name = "AddressLine1TextBox"
+        Me.AddressLine1TextBox.Size = New System.Drawing.Size(246, 23)
+        Me.AddressLine1TextBox.TabIndex = 66
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.Transparent
+        Me.Label4.Location = New System.Drawing.Point(445, 160)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(83, 15)
+        Me.Label4.TabIndex = 65
+        Me.Label4.Text = "Address Line1:"
+        '
+        'PreviousMedicalConditionsTextBox
+        '
+        Me.PreviousMedicalConditionsTextBox.Location = New System.Drawing.Point(143, 305)
+        Me.PreviousMedicalConditionsTextBox.MaxLength = 45
+        Me.PreviousMedicalConditionsTextBox.Multiline = True
+        Me.PreviousMedicalConditionsTextBox.Name = "PreviousMedicalConditionsTextBox"
+        Me.PreviousMedicalConditionsTextBox.Size = New System.Drawing.Size(252, 47)
+        Me.PreviousMedicalConditionsTextBox.TabIndex = 68
+        '
+        'CityTextBox
+        '
+        Me.CityTextBox.Location = New System.Drawing.Point(543, 228)
+        Me.CityTextBox.MaxLength = 50
+        Me.CityTextBox.Name = "CityTextBox"
+        Me.CityTextBox.Size = New System.Drawing.Size(130, 23)
+        Me.CityTextBox.TabIndex = 70
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.BackColor = System.Drawing.Color.Transparent
+        Me.Label8.Location = New System.Drawing.Point(498, 231)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(31, 15)
+        Me.Label8.TabIndex = 69
+        Me.Label8.Text = "City:"
+        '
+        'StateTextBox
+        '
+        Me.StateTextBox.Location = New System.Drawing.Point(543, 304)
+        Me.StateTextBox.MaxLength = 50
+        Me.StateTextBox.Name = "StateTextBox"
+        Me.StateTextBox.Size = New System.Drawing.Size(130, 23)
+        Me.StateTextBox.TabIndex = 72
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.BackColor = System.Drawing.Color.Transparent
+        Me.Label9.Location = New System.Drawing.Point(482, 266)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(47, 15)
+        Me.Label9.TabIndex = 71
+        Me.Label9.Text = "District:"
+        '
+        'DistrictTextBox
+        '
+        Me.DistrictTextBox.Location = New System.Drawing.Point(543, 266)
+        Me.DistrictTextBox.MaxLength = 50
+        Me.DistrictTextBox.Name = "DistrictTextBox"
+        Me.DistrictTextBox.Size = New System.Drawing.Size(130, 23)
+        Me.DistrictTextBox.TabIndex = 74
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.Location = New System.Drawing.Point(1324, 473)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(36, 15)
+        Me.Label10.TabIndex = 73
+        Me.Label10.Text = "State:"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.BackColor = System.Drawing.Color.Transparent
+        Me.Label11.Location = New System.Drawing.Point(491, 304)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(36, 15)
+        Me.Label11.TabIndex = 75
+        Me.Label11.Text = "State:"
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.BackColor = System.Drawing.Color.Transparent
+        Me.Label13.Location = New System.Drawing.Point(56, 267)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(72, 15)
+        Me.Label13.TabIndex = 81
+        Me.Label13.Text = "Occupation:"
+        '
+        'OccupationTextBox
+        '
+        Me.OccupationTextBox.Location = New System.Drawing.Point(143, 264)
+        Me.OccupationTextBox.MaxLength = 50
+        Me.OccupationTextBox.Name = "OccupationTextBox"
+        Me.OccupationTextBox.Size = New System.Drawing.Size(133, 23)
+        Me.OccupationTextBox.TabIndex = 79
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.BackColor = System.Drawing.Color.Transparent
+        Me.Label14.Location = New System.Drawing.Point(52, 234)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(77, 15)
+        Me.Label14.TabIndex = 78
+        Me.Label14.Text = "Blood Group:"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.Location = New System.Drawing.Point(11, 303)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(0, 15)
+        Me.Label15.TabIndex = 84
+        '
+        'CurrentMedicationTextbox
+        '
+        Me.CurrentMedicationTextbox.Location = New System.Drawing.Point(143, 415)
+        Me.CurrentMedicationTextbox.MaxLength = 45
+        Me.CurrentMedicationTextbox.Multiline = True
+        Me.CurrentMedicationTextbox.Name = "CurrentMedicationTextbox"
+        Me.CurrentMedicationTextbox.Size = New System.Drawing.Size(250, 43)
+        Me.CurrentMedicationTextbox.TabIndex = 83
+        '
+        'Label16
+     Me.Label16.AutoSize = True
+        Me.Label16.BackColor = System.Drawing.Color.Transparent
+        Me.Label16.Location = New System.Drawing.Point(42, 304)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(52, 15)
+        Me.Label16.TabIndex = 82
+        Me.Label16.Text = "Previous"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.BackColor = System.Drawing.Color.Transparent
+        Me.Label12.Location = New System.Drawing.Point(476, 345)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(53, 15)
+        Me.Label12.TabIndex = 87
+        Me.Label12.Text = "Pincode:"
+        '
+        'PincodeTextbox
+        '
+        Me.PincodeTextbox.Location = New System.Drawing.Point(543, 342)
+        Me.PincodeTextbox.MaxLength = 50
+        Me.PincodeTextbox.Name = "PincodeTextbox"
+        Me.PincodeTextbox.Size = New System.Drawing.Size(84, 23)
+        Me.PincodeTextbox.TabIndex = 86
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.BackColor = System.Drawing.Color.Transparent
+        Me.Label17.Location = New System.Drawing.Point(13, 418)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(113, 15)
+        Me.Label17.TabIndex = 88
+        Me.Label17.Text = "Current Medication:"
+        '
+        'SaveButton
+        '
+        Me.SaveButton.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.SaveButton.Location = New System.Drawing.Point(459, 467)
+        Me.SaveButton.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.SaveButton.Name = "SaveButton"
+        Me.SaveButton.Size = New System.Drawing.Size(83, 22)
+        Me.SaveButton.TabIndex = 89
+        Me.SaveButton.Text = "Save"
+        Me.SaveButton.UseVisualStyleBackColor = True
+        '
+        'CancelButton
+        '
+        Me.CancelButton.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.CancelButton.Location = New System.Drawing.Point(608, 467)
+        Me.CancelButton.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.CancelButton.Name = "CancelButton"
+        Me.CancelButton.Size = New System.Drawing.Size(83, 22)
+        Me.CancelButton.TabIndex = 90
+        Me.CancelButton.Text = "Cancel"
+        Me.CancelButton.UseVisualStyleBackColor = True
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.BackColor = System.Drawing.Color.Transparent
+        Me.Label18.ForeColor = System.Drawing.Color.Red
+        Me.Label18.Location = New System.Drawing.Point(296, 57)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(12, 15)
+        Me.Label18.TabIndex = 91
+        Me.Label18.Text = "*"
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.BackColor = System.Drawing.Color.Transparent
+        Me.Label19.ForeColor = System.Drawing.Color.Red
+        Me.Label19.Location = New System.Drawing.Point(257, 129)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(12, 15)
+        Me.Label19.TabIndex = 92
+        Me.Label19.Text = "*"
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.BackColor = System.Drawing.Color.Transparent
+        Me.Label20.ForeColor = System.Drawing.Color.Red
+        Me.Label20.Location = New System.Drawing.Point(203, 161)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(12, 15)
+        Me.Label20.TabIndex = 93
+        Me.Label20.Text = "*"
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.BackColor = System.Drawing.Color.Transparent
+        Me.Label21.ForeColor = System.Drawing.Color.Red
+        Me.Label21.Location = New System.Drawing.Point(295, 98)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(12, 15)
+        Me.Label21.TabIndex = 94
+        Me.Label21.Text = "*"
+        '
+        'DOBDateTimePicker
+        '
+        Me.DOBDateTimePicker.Location = New System.Drawing.Point(143, 189)
+        Me.DOBDateTimePicker.Name = "DOBDateTimePicker"
+        Me.DOBDateTimePicker.Size = New System.Drawing.Size(210, 23)
+        Me.DOBDateTimePicker.TabIndex = 97
+        '
+        'AddressLine2TextBox
+        '
+        Me.AddressLine2TextBox.Location = New System.Drawing.Point(543, 190)
+        Me.AddressLine2TextBox.MaxLength = 45
+        Me.AddressLine2TextBox.Name = "AddressLine2TextBox"
+        Me.AddressLine2TextBox.Size = New System.Drawing.Size(246, 23)
+        Me.AddressLine2TextBox.TabIndex = 85
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.Transparent
+        Me.Label6.Location = New System.Drawing.Point(446, 192)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(83, 15)
+        Me.Label6.TabIndex = 67
+        Me.Label6.Text = "Address Line2:"
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.BackColor = System.Drawing.Color.Transparent
+        Me.Label23.Location = New System.Drawing.Point(71, 370)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(55, 15)
+        Me.Label23.TabIndex = 99
+        Me.Label23.Text = "Allergies:"
+        '
+        'AllergiesTextBox
+        '
+        Me.AllergiesTextBox.Location = New System.Drawing.Point(143, 367)
+        Me.AllergiesTextBox.MaxLength = 50
+        Me.AllergiesTextBox.Multiline = True
+        Me.AllergiesTextBox.Name = "AllergiesTextBox"
+        Me.AllergiesTextBox.Size = New System.Drawing.Size(173, 37)
+        Me.AllergiesTextBox.TabIndex = 98
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.BackColor = System.Drawing.Color.Transparent
+        Me.Label24.Location = New System.Drawing.Point(444, 68)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(83, 15)
+        Me.Label24.TabIndex = 101
+        Me.Label24.Text = "Past Surgeries:"
+        '
+        'PastSurgeriesTextBox
+        '
+        Me.PastSurgeriesTextBox.Location = New System.Drawing.Point(543, 53)
+        Me.PastSurgeriesTextBox.MaxLength = 50
+        Me.PastSurgeriesTextBox.Multiline = True
+        Me.PastSurgeriesTextBox.Name = "PastSurgeriesTextBox"
+        Me.PastSurgeriesTextBox.Size = New System.Drawing.Size(206, 40)
+        Me.PastSurgeriesTextBox.TabIndex = 100
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.BackColor = System.Drawing.Color.Transparent
+        Me.Label26.Location = New System.Drawing.Point(460, 391)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(67, 15)
+        Me.Label26.TabIndex = 105
+        Me.Label26.Text = "Created By:"
+        '
+        'CreatedByTextBox
+        '
+        Me.CreatedByTextBox.Enabled = False
+        Me.CreatedByTextBox.Location = New System.Drawing.Point(543, 391)
+        Me.CreatedByTextBox.MaxLength = 50
+        Me.CreatedByTextBox.Name = "CreatedByTextBox"
+        Me.CreatedByTextBox.Size = New System.Drawing.Size(180, 23)
+        Me.CreatedByTextBox.TabIndex = 104
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.BackColor = System.Drawing.Color.Transparent
+        Me.Label29.Location = New System.Drawing.Point(449, 113)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(78, 15)
+        Me.Label29.TabIndex = 111
+        Me.Label29.Text = "Social Habits:"
+        '
+        'SocialHabitsTextBox
+        '
+        Me.SocialHabitsTextBox.Location = New System.Drawing.Point(543, 110)
+        Me.SocialHabitsTextBox.MaxLength = 50
+        Me.SocialHabitsTextBox.Multiline = True
+        Me.SocialHabitsTextBox.Name = "SocialHabitsTextBox"
+        Me.SocialHabitsTextBox.Size = New System.Drawing.Size(128, 31)
+        Me.SocialHabitsTextBox.TabIndex = 110
+        'BloodGroupComboBox
+        '
+        Me.BloodGroupComboBox.FormattingEnabled = True
+        Me.BloodGroupComboBox.Items.AddRange(New Object() {"O+", "A+", "B+", "AB+", "A-", "B-", "AB-", "O-"})
+        Me.BloodGroupComboBox.Location = New System.Drawing.Point(143, 226)
+        Me.BloodGroupComboBox.Margin = New System.Windows.Forms.Padding(2)
+        Me.BloodGroupComboBox.Name = "BloodGroupComboBox"
+        Me.BloodGroupComboBox.Size = New System.Drawing.Size(129, 23)
+        Me.BloodGroupComboBox.TabIndex = 112
+        '
+        'GenderComboBox
+        '
+        Me.GenderComboBox.AutoCompleteCustomSource.AddRange(New String() {"M", "F"})
+        Me.GenderComboBox.FormattingEnabled = True
+        Me.GenderComboBox.Items.AddRange(New Object() {"M", "F"})
+        Me.GenderComboBox.Location = New System.Drawing.Point(143, 161)
+        Me.GenderComboBox.Margin = New System.Windows.Forms.Padding(2)
+        Me.GenderComboBox.Name = "GenderComboBox"
+        Me.GenderComboBox.Size = New System.Drawing.Size(49, 23)
+        Me.GenderComboBox.TabIndex = 113
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.BackColor = System.Drawing.Color.Transparent
+        Me.Label22.ForeColor = System.Drawing.Color.Red
+        Me.Label22.Location = New System.Drawing.Point(277, 229)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(12, 15)
+        Me.Label22.TabIndex = 114
+        Me.Label22.Text = "*"
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.BackColor = System.Drawing.Color.Transparent
+        Me.Label30.ForeColor = System.Drawing.Color.Red
+        Me.Label30.Location = New System.Drawing.Point(401, 308)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(12, 15)
+        Me.Label30.TabIndex = 115
+        Me.Label30.Text = "*"
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.BackColor = System.Drawing.Color.Transparent
+        Me.Label31.ForeColor = System.Drawing.Color.Red
+        Me.Label31.Location = New System.Drawing.Point(756, 56)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(12, 15)
+        Me.Label31.TabIndex = 116
+        Me.Label31.Text = "*"
+        '
+        'Label32
+        '
+        Me.Label32.AutoSize = True
+        Me.Label32.BackColor = System.Drawing.Color.Transparent
+        Me.Label32.ForeColor = System.Drawing.Color.Red
+        Me.Label32.Location = New System.Drawing.Point(677, 113)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(12, 15)
+        Me.Label32.TabIndex = 117
+        Me.Label32.Text = "*"
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.BackColor = System.Drawing.Color.Transparent
+        Me.Label33.ForeColor = System.Drawing.Color.Red
+        Me.Label33.Location = New System.Drawing.Point(322, 370)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(12, 15)
+        Me.Label33.TabIndex = 118
+        Me.Label33.Text = "*"
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.BackColor = System.Drawing.Color.Transparent
+        Me.Label34.ForeColor = System.Drawing.Color.Red
+        Me.Label34.Location = New System.Drawing.Point(399, 415)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(12, 15)
+        Me.Label34.TabIndex = 119
+        Me.Label34.Text = "*"
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.BackColor = System.Drawing.Color.Transparent
+        Me.Label35.ForeColor = System.Drawing.Color.Red
+        Me.Label35.Location = New System.Drawing.Point(196, 15)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(12, 15)
+        Me.Label35.TabIndex = 122
+        Me.Label35.Text = "*"
+        '
+        'EIDTextBox
+        '
+        Me.EIDTextBox.Enabled = False
+        Me.EIDTextBox.Location = New System.Drawing.Point(143, 13)
+        Me.EIDTextBox.MaxLength = 45
+        Me.EIDTextBox.Name = "EIDTextBox"
+        Me.EIDTextBox.Size = New System.Drawing.Size(47, 23)
+        Me.EIDTextBox.TabIndex = 121
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.BackColor = System.Drawing.Color.Transparent
+        Me.Label36.Location = New System.Drawing.Point(97, 15)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(27, 15)
+        Me.Label36.TabIndex = 120
+        Me.Label36.Text = "EID:"
+        '
+        'UserNameLabel
+        '
+        Me.UserNameLabel.AutoSize = True
+        Me.UserNameLabel.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.UserNameLabel.Location = New System.Drawing.Point(243, 15)
+        Me.UserNameLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.UserNameLabel.Name = "UserNameLabel"
+        Me.UserNameLabel.Size = New System.Drawing.Size(64, 15)
+        Me.UserNameLabel.TabIndex = 123
+        Me.UserNameLabel.Text = "Username"
+        '
+        'RoleLabel
+        '
+        Me.RoleLabel.AutoSize = True
+        Me.RoleLabel.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.RoleLabel.Location = New System.Drawing.Point(348, 13)
+        Me.RoleLabel.Margin = New System.Windows.Forms.Padding(2, 0, 2, 0)
+        Me.RoleLabel.Name = "RoleLabel"
+        Me.RoleLabel.Size = New System.Drawing.Size(32, 15)
+        Me.RoleLabel.TabIndex = 124
+        Me.RoleLabel.Text = "Role"
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.BackColor = System.Drawing.Color.Transparent
+        Me.Label37.ForeColor = System.Drawing.Color.Red
+        Me.Label37.Location = New System.Drawing.Point(287, 267)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(12, 15)
+        Me.Label37.TabIndex = 125
+        Me.Label37.Text = "*"
+        '
+        'Label38
+        '
+        Me.Label38.AutoSize = True
+        Me.Label38.BackColor = System.Drawing.Color.Transparent
+        Me.Label38.ForeColor = System.Drawing.Color.Red
+        Me.Label38.Location = New System.Drawing.Point(679, 231)
+        Me.Label38.Name = "Label38"
+        Me.Label38.Size = New System.Drawing.Size(12, 15)
+        Me.Label38.TabIndex = 126
+        Me.Label38.Text = "*"
+        '
+        'Label39
+        '
+        Me.Label39.AutoSize = True
+        Me.Label39.BackColor = System.Drawing.Color.Transparent
+        Me.Label39.ForeColor = System.Drawing.Color.Red
+        Me.Label39.Location = New System.Drawing.Point(680, 266)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(12, 15)
+        Me.Label39.TabIndex = 127
+        Me.Label39.Text = "*"
+        '
+        'Label40
+        '
+        Me.Label40.AutoSize = True
+        Me.Label40.BackColor = System.Drawing.Color.Transparent
+        Me.Label40.ForeColor = System.Drawing.Color.Red
+        Me.Label40.Location = New System.Drawing.Point(678, 304)
+        Me.Label40.Name = "Label40"
+        Me.Label40.Size = New System.Drawing.Size(12, 15)
+        Me.Label40.TabIndex = 128
+        Me.Label40.Text = "*"
+        '
+        'Label41
+        '
+        Me.Label41.AutoSize = True
+        Me.Label41.BackColor = System.Drawing.Color.Transparent
+        Me.Label41.ForeColor = System.Drawing.Color.Red
+        Me.Label41.Location = New System.Drawing.Point(633, 342)
+        Me.Label41.Name = "Label41"
+        Me.Label41.Size = New System.Drawing.Size(12, 15)
+        Me.Label41.TabIndex = 129
+        Me.Label41.Text = "*"
+        '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.BackColor = System.Drawing.Color.Transparent
+        Me.Label25.Location = New System.Drawing.Point(15, 323)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(113, 15)
+        Me.Label25.TabIndex = 130
+        Me.Label25.Text = "Medical Conditions:"
+        '
+        'NewPatientForm
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.ClientSize = New System.Drawing.Size(820, 509)
+        Me.Controls.Add(Me.Label25)
+        Me.Controls.Add(Me.Label41)
+        Me.Controls.Add(Me.Label40)
+        Me.Controls.Add(Me.Label39)
+        Me.Controls.Add(Me.Label38)
+        Me.Controls.Add(Me.Label37)
+        Me.Controls.Add(Me.RoleLabel)
+        Me.Controls.Add(Me.UserNameLabel)
+        Me.Controls.Add(Me.Label35)
+        Me.Controls.Add(Me.EIDTextBox)
+        Me.Controls.Add(Me.Label36)
+        Me.Controls.Add(Me.Label34)
+        Me.Controls.Add(Me.Label33)
+        Me.Controls.Add(Me.Label32)
+        Me.Controls.Add(Me.Label31)
+        Me.Controls.Add(Me.Label30)
+        Me.Controls.Add(Me.Label22)
+        Me.Controls.Add(Me.GenderComboBox)
+        Me.Controls.Add(Me.BloodGroupComboBox)
+        Me.Controls.Add(Me.Label29)
+        Me.Controls.Add(Me.SocialHabitsTextBox)
+        Me.Controls.Add(Me.Label26)
+        Me.Controls.Add(Me.CreatedByTextBox)
+        Me.Controls.Add(Me.Label24)
+        Me.Controls.Add(Me.PastSurgeriesTextBox)
+        Me.Controls.Add(Me.Label23)
+        Me.Controls.Add(Me.AllergiesTextBox)
+        Me.Controls.Add(Me.DOBDateTimePicker)
+        Me.Controls.Add(Me.Label21)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.Label19)
+        Me.Controls.Add(Me.Label18)
+        Me.Controls.Add(Me.CancelButton)
+        Me.Controls.Add(Me.SaveButton)
+        Me.Controls.Add(Me.Label17)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.PincodeTextbox)
+        Me.Controls.Add(Me.AddressLine2TextBox)
+        Me.Controls.Add(Me.Label15)
+        Me.Controls.Add(Me.CurrentMedicationTextbox)
+        Me.Controls.Add(Me.Label16)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.OccupationTextBox)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.DistrictTextBox)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.StateTextBox)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.CityTextBox)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.PreviousMedicalConditionsTextBox)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.AddressLine1TextBox)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.PhoneTextBox)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.LastNameTextBox)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.FirstNameTextBox)
+        Me.Controls.Add(Me.Label3)
+        Me.FormBorderStyle = System.Windows.Forms.FormBorderStyle.FixedSingle
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "NewPatientForm"
+        Me.Text = "New Patient Form"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+
+    Friend WithEvents PhoneTextBox As TextBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents LastNameTextBox As TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents FirstNameTextBox As TextBox
+    Friend WithEvents Label3 As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents AddressLine1TextBox As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents PreviousMedicalConditionsTextBox As TextBox
+    Friend WithEvents CityTextBox As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents StateTextBox As TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents DistrictTextBox As TextBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents OccupationTextBox As TextBox
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Label15 As Label
+    Friend WithEvents CurrentMedicationTextbox As TextBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Label12 As Label
+    Friend WithEvents PincodeTextbox As TextBox
+    Friend WithEvents Label17 As Label
+    Friend WithEvents SaveButton As Button
+    Friend WithEvents CancelButton As Button
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents Label21 As Label
+
+    Public Sub New()
+
+        ' This call is required by the designer.
+        InitializeComponent()
+
+        ' Add any initialization after the InitializeComponent() call.
+
+    End Sub
+
+    Friend WithEvents DOBDateTimePicker As DateTimePicker
+    Friend WithEvents AddressLine2TextBox As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents Label23 As Label
+    Friend WithEvents AllergiesTextBox As TextBox
+    Friend WithEvents Label24 As Label
+    Friend WithEvents PastSurgeriesTextBox As TextBox
+    Friend WithEvents Label26 As Label
+    Friend WithEvents CreatedByTextBox As TextBox
+    Friend WithEvents Label29 As Label
+    Friend WithEvents SocialHabitsTextBox As TextBox
+    Friend WithEvents BloodGroupComboBox As ComboBox
+    Friend WithEvents GenderComboBox As ComboBox
+    Friend WithEvents Label22 As Label
+    Friend WithEvents Label30 As Label
+    Friend WithEvents Label31 As Label
+    Friend WithEvents Label32 As Label
+    Friend WithEvents Label33 As Label
+    Friend WithEvents Label34 As Label
+    Friend WithEvents Label35 As Label
+    Friend WithEvents EIDTextBox As TextBox
+    Friend WithEvents Label36 As Label
+    Friend WithEvents UserNameLabel As Label
+    Friend WithEvents RoleLabel As Label
+    Friend WithEvents Label37 As Label
+    Friend WithEvents Label38 As Label
+    Friend WithEvents Label39 As Label
+    Friend WithEvents Label40 As Label
+    Friend WithEvents Label41 As Label
+    Friend WithEvents Label25 As Label
+End Class
+
+Existing Patient Form:
+<Global.Microsoft.VisualBasic.CompilerServices.DesignerGenerated()>
+Partial Class ExistingPatientForm
+    Inherits System.Windows.Forms.Form
+
+    'Form overrides dispose to clean up the component list.
+    <System.Diagnostics.DebuggerNonUserCode()>
+    Protected Overrides Sub Dispose(ByVal disposing As Boolean)
+        Try
+            If disposing AndAlso components IsNot Nothing Then
+                components.Dispose()
+            End If
+        Finally
+            MyBase.Dispose(disposing)
+        End Try
+    End Sub
+
+    'Required by the Windows Form Designer
+    Private components As System.ComponentModel.IContainer
+
+    'NOTE: The following procedure is required by the Windows Form Designer
+    'It can be modified using the Windows Form Designer.  
+    'Do not modify it using the code editor.
+    <System.Diagnostics.DebuggerStepThrough()>
+    Private Sub InitializeComponent()
+        Me.CancelButton = New System.Windows.Forms.Button()
+        Me.EditButton = New System.Windows.Forms.Button()
+        Me.PatientIDTextBox = New System.Windows.Forms.TextBox()
+        Me.Label22 = New System.Windows.Forms.Label()
+        Me.Label34 = New System.Windows.Forms.Label()
+        Me.Label33 = New System.Windows.Forms.Label()
+        Me.Label32 = New System.Windows.Forms.Label()
+        Me.Label1 = New System.Windows.Forms.Label()
+        Me.GenderComboBox = New System.Windows.Forms.ComboBox()
+        Me.BloodGroupComboBox = New System.Windows.Forms.ComboBox()
+        Me.Label29 = New System.Windows.Forms.Label()
+        Me.SocialHabitsTextBox = New System.Windows.Forms.TextBox()
+        Me.Label27 = New System.Windows.Forms.Label()
+        Me.UpdatedByTextBox = New System.Windows.Forms.TextBox()
+        Me.Label24 = New System.Windows.Forms.Label()
+        Me.PastSurgeriesTextBox = New System.Windows.Forms.TextBox()
+        Me.Label23 = New System.Windows.Forms.Label()
+        Me.AllergiesTextBox = New System.Windows.Forms.TextBox()
+        Me.DOBDateTimePicker = New System.Windows.Forms.DateTimePicker()
+        Me.Label21 = New System.Windows.Forms.Label()
+        Me.Label20 = New System.Windows.Forms.Label()
+        Me.Label19 = New System.Windows.Forms.Label()
+        Me.Label18 = New System.Windows.Forms.Label()
+        Me.Label17 = New System.Windows.Forms.Label()
+        Me.Label12 = New System.Windows.Forms.Label()
+        Me.PincodeTextbox = New System.Windows.Forms.TextBox()
+        Me.AddressLine2TextBox = New System.Windows.Forms.TextBox()
+        Me.CurrentMedicationTextbox = New System.Windows.Forms.TextBox()
+        Me.Label16 = New System.Windows.Forms.Label()
+        Me.Label13 = New System.Windows.Forms.Label()
+        Me.OccupationTextBox = New System.Windows.Forms.TextBox()
+        Me.Label14 = New System.Windows.Forms.Label()
+        Me.Label11 = New System.Windows.Forms.Label()
+        Me.DistrictTextBox = New System.Windows.Forms.TextBox()
+        Me.StateTextBox = New System.Windows.Forms.TextBox()
+        Me.Label9 = New System.Windows.Forms.Label()
+        Me.CityTextBox = New System.Windows.Forms.TextBox()
+        Me.Label8 = New System.Windows.Forms.Label()
+        Me.PreviousMedicalConditionsTextBox = New System.Windows.Forms.TextBox()
+        Me.Label6 = New System.Windows.Forms.Label()
+        Me.AddressLine1TextBox = New System.Windows.Forms.TextBox()
+        Me.Label4 = New System.Windows.Forms.Label()
+        Me.Label2 = New System.Windows.Forms.Label()
+        Me.Label3 = New System.Windows.Forms.Label()
+        Me.PhoneTextBox = New System.Windows.Forms.TextBox()
+        Me.Label7 = New System.Windows.Forms.Label()
+        Me.LastNameTextBox = New System.Windows.Forms.TextBox()
+        Me.Label5 = New System.Windows.Forms.Label()
+        Me.FirstNameTextBox = New System.Windows.Forms.TextBox()
+        Me.Label10 = New System.Windows.Forms.Label()
+        Me.Label15 = New System.Windows.Forms.Label()
+        Me.Label30 = New System.Windows.Forms.Label()
+        Me.Label31 = New System.Windows.Forms.Label()
+        Me.Label35 = New System.Windows.Forms.Label()
+        Me.Label36 = New System.Windows.Forms.Label()
+        Me.Label37 = New System.Windows.Forms.Label()
+        Me.Label38 = New System.Windows.Forms.Label()
+        Me.Label39 = New System.Windows.Forms.Label()
+        Me.Label25 = New System.Windows.Forms.Label()
+        Me.CreatedOnDateTimePicker = New System.Windows.Forms.DateTimePicker()
+        Me.Label26 = New System.Windows.Forms.Label()
+        Me.CreatedByTextBox = New System.Windows.Forms.TextBox()
+        Me.Label28 = New System.Windows.Forms.Label()
+        Me.SuspendLayout()
+        '
+        'CancelButton
+        '
+        Me.CancelButton.Location = New System.Drawing.Point(484, 496)
+        Me.CancelButton.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.CancelButton.Name = "CancelButton"
+        Me.CancelButton.Size = New System.Drawing.Size(83, 22)
+        Me.CancelButton.TabIndex = 136
+        Me.CancelButton.Text = "Cancel"
+        Me.CancelButton.UseVisualStyleBackColor = True
+        '
+        'EditButton
+        '
+        Me.EditButton.Location = New System.Drawing.Point(298, 496)
+        Me.EditButton.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.EditButton.Name = "EditButton"
+        Me.EditButton.Size = New System.Drawing.Size(83, 22)
+        Me.EditButton.TabIndex = 135
+        Me.EditButton.Text = "Edit"
+        Me.EditButton.UseVisualStyleBackColor = True
+        '
+        'PatientIDTextBox
+        '
+        Me.PatientIDTextBox.Enabled = False
+        Me.PatientIDTextBox.Location = New System.Drawing.Point(152, 43)
+        Me.PatientIDTextBox.MaxLength = 50
+        Me.PatientIDTextBox.Name = "PatientIDTextBox"
+        Me.PatientIDTextBox.Size = New System.Drawing.Size(56, 23)
+        Me.PatientIDTextBox.TabIndex = 151
+        '
+        'Label22
+        '
+        Me.Label22.AutoSize = True
+        Me.Label22.BackColor = System.Drawing.Color.Transparent
+        Me.Label22.Font = New System.Drawing.Font("Segoe UI", 9.0!, System.Drawing.FontStyle.Bold, System.Drawing.GraphicsUnit.Point)
+        Me.Label22.Location = New System.Drawing.Point(67, 49)
+        Me.Label22.Name = "Label22"
+        Me.Label22.Size = New System.Drawing.Size(66, 15)
+        Me.Label22.TabIndex = 150
+        Me.Label22.Text = "Patient ID:"
+        Me.Label22.TextAlign = System.Drawing.ContentAlignment.TopCenter
+        '
+        'Label34
+        '
+        Me.Label34.AutoSize = True
+        Me.Label34.BackColor = System.Drawing.Color.Transparent
+        Me.Label34.ForeColor = System.Drawing.Color.Red
+        Me.Label34.Location = New System.Drawing.Point(404, 422)
+        Me.Label34.Name = "Label34"
+        Me.Label34.Size = New System.Drawing.Size(12, 15)
+        Me.Label34.TabIndex = 201
+        Me.Label34.Text = "*"
+        '
+        'Label33
+        '
+        Me.Label33.AutoSize = True
+        Me.Label33.BackColor = System.Drawing.Color.Transparent
+        Me.Label33.ForeColor = System.Drawing.Color.Red
+        Me.Label33.Location = New System.Drawing.Point(331, 388)
+        Me.Label33.Name = "Label33"
+        Me.Label33.Size = New System.Drawing.Size(12, 15)
+        Me.Label33.TabIndex = 200
+        Me.Label33.Text = "*"
+        '
+        'Label32
+        Me.Label32.AutoSize = True
+        Me.Label32.BackColor = System.Drawing.Color.Transparent
+        Me.Label32.ForeColor = System.Drawing.Color.Red
+        Me.Label32.Location = New System.Drawing.Point(655, 92)
+        Me.Label32.Name = "Label32"
+        Me.Label32.Size = New System.Drawing.Size(12, 15)
+        Me.Label32.TabIndex = 199
+        Me.Label32.Text = "*"
+        '
+        'Label1
+        '
+        Me.Label1.AutoSize = True
+        Me.Label1.BackColor = System.Drawing.Color.Transparent
+        Me.Label1.ForeColor = System.Drawing.Color.Red
+        Me.Label1.Location = New System.Drawing.Point(286, 246)
+        Me.Label1.Name = "Label1"
+        Me.Label1.Size = New System.Drawing.Size(12, 15)
+        Me.Label1.TabIndex = 198
+        Me.Label1.Text = "*"
+        '
+        'GenderComboBox
+        '
+        Me.GenderComboBox.AutoCompleteCustomSource.AddRange(New String() {"M", "F"})
+        Me.GenderComboBox.FormattingEnabled = True
+        Me.GenderComboBox.Items.AddRange(New Object() {"M", "F"})
+        Me.GenderComboBox.Location = New System.Drawing.Point(152, 179)
+        Me.GenderComboBox.Margin = New System.Windows.Forms.Padding(2)
+        Me.GenderComboBox.Name = "GenderComboBox"
+        Me.GenderComboBox.Size = New System.Drawing.Size(49, 23)
+        Me.GenderComboBox.TabIndex = 197
+        '
+        'BloodGroupComboBox
+        '
+        Me.BloodGroupComboBox.FormattingEnabled = True
+        Me.BloodGroupComboBox.Items.AddRange(New Object() {"O+", "A+", "B+", "AB+", "A-", "B-", "AB-", "O-"})
+        Me.BloodGroupComboBox.Location = New System.Drawing.Point(153, 251)
+        Me.BloodGroupComboBox.Margin = New System.Windows.Forms.Padding(2)
+        Me.BloodGroupComboBox.Name = "BloodGroupComboBox"
+        Me.BloodGroupComboBox.Size = New System.Drawing.Size(129, 23)
+        Me.BloodGroupComboBox.TabIndex = 196
+        '
+        'Label29
+        '
+        Me.Label29.AutoSize = True
+        Me.Label29.BackColor = System.Drawing.Color.Transparent
+        Me.Label29.Location = New System.Drawing.Point(426, 87)
+        Me.Label29.Name = "Label29"
+        Me.Label29.Size = New System.Drawing.Size(78, 15)
+        Me.Label29.TabIndex = 195
+        Me.Label29.Text = "Social Habits:"
+        '
+        'SocialHabitsTextBox
+        '
+        Me.SocialHabitsTextBox.Location = New System.Drawing.Point(521, 89)
+        Me.SocialHabitsTextBox.MaxLength = 50
+        Me.SocialHabitsTextBox.Name = "SocialHabitsTextBox"
+        Me.SocialHabitsTextBox.Size = New System.Drawing.Size(128, 23)
+        Me.SocialHabitsTextBox.TabIndex = 194
+        '
+        'Label27
+        '
+        Me.Label27.AutoSize = True
+        Me.Label27.BackColor = System.Drawing.Color.Transparent
+        Me.Label27.Location = New System.Drawing.Point(430, 424)
+        Me.Label27.Name = "Label27"
+        Me.Label27.Size = New System.Drawing.Size(71, 15)
+        Me.Label27.TabIndex = 193
+        Me.Label27.Text = "Updated By:"
+        '
+        'UpdatedByTextBox
+        '
+        Me.UpdatedByTextBox.Enabled = False
+        Me.UpdatedByTextBox.Location = New System.Drawing.Point(521, 416)
+        Me.UpdatedByTextBox.MaxLength = 50
+        Me.UpdatedByTextBox.Name = "UpdatedByTextBox"
+        Me.UpdatedByTextBox.Size = New System.Drawing.Size(144, 23)
+        Me.UpdatedByTextBox.TabIndex = 192
+        '
+        'Label24
+        '
+        Me.Label24.AutoSize = True
+        Me.Label24.BackColor = System.Drawing.Color.Transparent
+        Me.Label24.Location = New System.Drawing.Point(421, 52)
+        Me.Label24.Name = "Label24"
+        Me.Label24.Size = New System.Drawing.Size(83, 15)
+        Me.Label24.TabIndex = 187
+        Me.Label24.Text = "Past Surgeries:"
+        '
+        'PastSurgeriesTextBox
+        '
+        Me.PastSurgeriesTextBox.Location = New System.Drawing.Point(520, 39)
+        Me.PastSurgeriesTextBox.MaxLength = 50
+        Me.PastSurgeriesTextBox.Multiline = True
+        Me.PastSurgeriesTextBox.Name = "PastSurgeriesTextBox"
+        Me.PastSurgeriesTextBox.Size = New System.Drawing.Size(206, 36)
+        Me.PastSurgeriesTextBox.TabIndex = 186
+        '
+        'Label23
+        '
+        Me.Label23.AutoSize = True
+        Me.Label23.BackColor = System.Drawing.Color.Transparent
+        Me.Label23.Location = New System.Drawing.Point(70, 378)
+        Me.Label23.Name = "Label23"
+        Me.Label23.Size = New System.Drawing.Size(55, 15)
+        Me.Label23.TabIndex = 185
+        Me.Label23.Text = "Allergies:"
+        '
+        'AllergiesTextBox
+        '
+        Me.AllergiesTextBox.Location = New System.Drawing.Point(152, 380)
+        Me.AllergiesTextBox.MaxLength = 50
+        Me.AllergiesTextBox.Name = "AllergiesTextBox"
+        Me.AllergiesTextBox.Size = New System.Drawing.Size(173, 23)
+        Me.AllergiesTextBox.TabIndex = 184
+        '
+        'DOBDateTimePicker
+        '
+        Me.DOBDateTimePicker.Location = New System.Drawing.Point(152, 211)
+        Me.DOBDateTimePicker.Name = "DOBDateTimePicker"
+        Me.DOBDateTimePicker.Size = New System.Drawing.Size(210, 23)
+        Me.DOBDateTimePicker.TabIndex = 183
+        '
+        'Label21
+        '
+        Me.Label21.AutoSize = True
+        Me.Label21.BackColor = System.Drawing.Color.Transparent
+        Me.Label21.ForeColor = System.Drawing.Color.Red
+        Me.Label21.Location = New System.Drawing.Point(302, 114)
+        Me.Label21.Name = "Label21"
+        Me.Label21.Size = New System.Drawing.Size(12, 15)
+        Me.Label21.TabIndex = 182
+        Me.Label21.Text = "*"
+        '
+        'Label20
+        '
+        Me.Label20.AutoSize = True
+        Me.Label20.BackColor = System.Drawing.Color.Transparent
+        Me.Label20.ForeColor = System.Drawing.Color.Red
+        Me.Label20.Location = New System.Drawing.Point(206, 182)
+        Me.Label20.Name = "Label20"
+        Me.Label20.Size = New System.Drawing.Size(12, 15)
+        Me.Label20.TabIndex = 181
+        Me.Label20.Text = "*"
+        '
+        'Label19
+        '
+        Me.Label19.AutoSize = True
+        Me.Label19.BackColor = System.Drawing.Color.Transparent
+        Me.Label19.ForeColor = System.Drawing.Color.Red
+        Me.Label19.Location = New System.Drawing.Point(291, 143)
+        Me.Label19.Name = "Label19"
+        Me.Label19.Size = New System.Drawing.Size(12, 15)
+        Me.Label19.TabIndex = 180
+        Me.Label19.Text = "*"
+        '
+        'Label18
+        '
+        Me.Label18.AutoSize = True
+        Me.Label18.BackColor = System.Drawing.Color.Transparent
+        Me.Label18.ForeColor = System.Drawing.Color.Red
+        Me.Label18.Location = New System.Drawing.Point(304, 78)
+        Me.Label18.Name = "Label18"
+        Me.Label18.Size = New System.Drawing.Size(12, 15)
+        Me.Label18.TabIndex = 179
+        Me.Label18.Text = "*"
+        '
+        'Label17
+        '
+        Me.Label17.AutoSize = True
+        Me.Label17.BackColor = System.Drawing.Color.Transparent
+        Me.Label17.Location = New System.Drawing.Point(12, 433)
+        Me.Label17.Name = "Label17"
+        Me.Label17.Size = New System.Drawing.Size(113, 15)
+        Me.Label17.TabIndex = 178
+        Me.Label17.Text = "Current Medication:"
+        '
+        'Label12
+        '
+        Me.Label12.AutoSize = True
+        Me.Label12.BackColor = System.Drawing.Color.Transparent
+        Me.Label12.Location = New System.Drawing.Point(447, 297)
+        Me.Label12.Name = "Label12"
+        Me.Label12.Size = New System.Drawing.Size(53, 15)
+        Me.Label12.TabIndex = 177
+        Me.Label12.Text = "Pincode:"
+        '
+        'PincodeTextbox
+        '
+        Me.PincodeTextbox.Location = New System.Drawing.Point(522, 291)
+        Me.PincodeTextbox.MaxLength = 50
+        Me.PincodeTextbox.Name = "PincodeTextbox"
+        Me.PincodeTextbox.Size = New System.Drawing.Size(84, 23)
+        Me.PincodeTextbox.TabIndex = 176
+        '
+        'AddressLine2TextBox
+        '
+        Me.AddressLine2TextBox.Location = New System.Drawing.Point(521, 158)
+        Me.AddressLine2TextBox.MaxLength = 45
+        Me.AddressLine2TextBox.Name = "AddressLine2TextBox"
+        Me.AddressLine2TextBox.Size = New System.Drawing.Size(198, 23)
+        Me.AddressLine2TextBox.TabIndex = 175
+        '
+        'CurrentMedicationTextbox
+        '
+        Me.CurrentMedicationTextbox.Location = New System.Drawing.Point(152, 416)
+        Me.CurrentMedicationTextbox.MaxLength = 45
+        Me.CurrentMedicationTextbox.Multiline = True
+        Me.CurrentMedicationTextbox.Name = "CurrentMedicationTextbox"
+        Me.CurrentMedicationTextbox.Size = New System.Drawing.Size(250, 41)
+        Me.CurrentMedicationTextbox.TabIndex = 174
+        '
+        'Label16
+        '
+        Me.Label16.AutoSize = True
+        Me.Label16.BackColor = System.Drawing.Color.Transparent
+        Me.Label16.Location = New System.Drawing.Point(61, 323)
+        Me.Label16.Name = "Label16"
+        Me.Label16.Size = New System.Drawing.Size(55, 15)
+        Me.Label16.TabIndex = 173
+        Me.Label16.Text = "Previous "
+        '
+        'Label13
+        '
+        Me.Label13.AutoSize = True
+        Me.Label13.BackColor = System.Drawing.Color.Transparent
+        Me.Label13.Location = New System.Drawing.Point(58, 297)
+        Me.Label13.Name = "Label13"
+        Me.Label13.Size = New System.Drawing.Size(72, 15)
+        Me.Label13.TabIndex = 172
+        Me.Label13.Text = "Occupation:"
+        '
+        'OccupationTextBox
+        '
+        Me.OccupationTextBox.Location = New System.Drawing.Point(153, 291)
+        Me.OccupationTextBox.MaxLength = 50
+        Me.OccupationTextBox.Name = "OccupationTextBox"
+        Me.OccupationTextBox.Size = New System.Drawing.Size(133, 23)
+        Me.OccupationTextBox.TabIndex = 171
+        '
+        'Label14
+        '
+        Me.Label14.AutoSize = True
+        Me.Label14.BackColor = System.Drawing.Color.Transparent
+        Me.Label14.Location = New System.Drawing.Point(53, 259)
+        Me.Label14.Name = "Label14"
+        Me.Label14.Size = New System.Drawing.Size(77, 15)
+        Me.Label14.TabIndex = 170
+        Me.Label14.Text = "Blood Group:"
+        '
+        'Label11
+        '
+        Me.Label11.AutoSize = True
+        Me.Label11.BackColor = System.Drawing.Color.Transparent
+        Me.Label11.Location = New System.Drawing.Point(464, 265)
+        Me.Label11.Name = "Label11"
+        Me.Label11.Size = New System.Drawing.Size(36, 15)
+        Me.Label11.TabIndex = 169
+        Me.Label11.Text = "State:"
+        '
+        'DistrictTextBox
+        '
+        Me.DistrictTextBox.Location = New System.Drawing.Point(522, 228)
+        Me.DistrictTextBox.MaxLength = 50
+        Me.DistrictTextBox.Name = "DistrictTextBox"
+        Me.DistrictTextBox.Size = New System.Drawing.Size(130, 23)
+        Me.DistrictTextBox.TabIndex = 168
+        '
+        'StateTextBox
+        '
+        Me.StateTextBox.Location = New System.Drawing.Point(522, 262)
+        Me.StateTextBox.MaxLength = 50
+        Me.StateTextBox.Name = "StateTextBox"
+        Me.StateTextBox.Size = New System.Drawing.Size(130, 23)
+        Me.StateTextBox.TabIndex = 167
+        '
+        'Label9
+        '
+        Me.Label9.AutoSize = True
+        Me.Label9.BackColor = System.Drawing.Color.Transparent
+        Me.Label9.Location = New System.Drawing.Point(453, 231)
+        Me.Label9.Name = "Label9"
+        Me.Label9.Size = New System.Drawing.Size(47, 15)
+        Me.Label9.TabIndex = 166
+        Me.Label9.Text = "District:"
+        '
+        'CityTextBox
+        '
+        Me.CityTextBox.Location = New System.Drawing.Point(521, 200)
+        Me.CityTextBox.MaxLength = 50
+        Me.CityTextBox.Name = "CityTextBox"
+        Me.CityTextBox.Size = New System.Drawing.Size(130, 23)
+        Me.CityTextBox.TabIndex = 165
+        '
+        'Label8
+        '
+        Me.Label8.AutoSize = True
+        Me.Label8.BackColor = System.Drawing.Color.Transparent
+        Me.Label8.Location = New System.Drawing.Point(471, 206)
+        Me.Label8.Name = "Label8"
+        Me.Label8.Size = New System.Drawing.Size(31, 15)
+        Me.Label8.TabIndex = 164
+        Me.Label8.Text = "City:"
+        '
+        'PreviousMedicalConditionsTextBox
+        '
+        Me.PreviousMedicalConditionsTextBox.Location = New System.Drawing.Point(152, 320)
+        Me.PreviousMedicalConditionsTextBox.MaxLength = 45
+        Me.PreviousMedicalConditionsTextBox.Multiline = True
+        Me.PreviousMedicalConditionsTextBox.Name = "PreviousMedicalConditionsTextBox"
+        Me.PreviousMedicalConditionsTextBox.Size = New System.Drawing.Size(252, 40)
+        Me.PreviousMedicalConditionsTextBox.TabIndex = 163
+        '
+        'Label6
+        '
+        Me.Label6.AutoSize = True
+        Me.Label6.BackColor = System.Drawing.Color.Transparent
+        Me.Label6.Location = New System.Drawing.Point(421, 161)
+        Me.Label6.Name = "Label6"
+        Me.Label6.Size = New System.Drawing.Size(83, 15)
+        Me.Label6.TabIndex = 162
+        Me.Label6.Text = "Address Line2:"
+        '
+        'AddressLine1TextBox
+        '
+        Me.AddressLine1TextBox.Location = New System.Drawing.Point(520, 120)
+        Me.AddressLine1TextBox.MaxLength = 45
+        Me.AddressLine1TextBox.Name = "AddressLine1TextBox"
+        Me.AddressLine1TextBox.Size = New System.Drawing.Size(198, 23)
+        Me.AddressLine1TextBox.TabIndex = 161
+        '
+        'Label4
+        '
+        Me.Label4.AutoSize = True
+        Me.Label4.BackColor = System.Drawing.Color.Transparent
+        Me.Label4.Location = New System.Drawing.Point(421, 122)
+        Me.Label4.Name = "Label4"
+        Me.Label4.Size = New System.Drawing.Size(83, 15)
+        Me.Label4.TabIndex = 160
+        Me.Label4.Text = "Address Line1:"
+        '
+        'Label2
+        Me.Label2.AutoSize = True
+        Me.Label2.BackColor = System.Drawing.Color.Transparent
+        Me.Label2.Location = New System.Drawing.Point(49, 214)
+        Me.Label2.Name = "Label2"
+        Me.Label2.Size = New System.Drawing.Size(76, 15)
+        Me.Label2.TabIndex = 159
+        Me.Label2.Text = "Date of Birth:"
+        '
+        'Label3
+        '
+        Me.Label3.AutoSize = True
+        Me.Label3.BackColor = System.Drawing.Color.Transparent
+        Me.Label3.Location = New System.Drawing.Point(77, 182)
+        Me.Label3.Name = "Label3"
+        Me.Label3.Size = New System.Drawing.Size(48, 15)
+        Me.Label3.TabIndex = 158
+        Me.Label3.Text = "Gender:"
+        '
+        'PhoneTextBox
+        '
+        Me.PhoneTextBox.Location = New System.Drawing.Point(152, 139)
+        Me.PhoneTextBox.MaxLength = 50
+        Me.PhoneTextBox.Name = "PhoneTextBox"
+        Me.PhoneTextBox.Size = New System.Drawing.Size(134, 23)
+        Me.PhoneTextBox.TabIndex = 157
+        '
+        'Label7
+        '
+        Me.Label7.AutoSize = True
+        Me.Label7.BackColor = System.Drawing.Color.Transparent
+        Me.Label7.Location = New System.Drawing.Point(83, 146)
+        Me.Label7.Name = "Label7"
+        Me.Label7.Size = New System.Drawing.Size(44, 15)
+        Me.Label7.TabIndex = 156
+        Me.Label7.Text = "Phone:"
+        '
+        'LastNameTextBox
+        '
+        Me.LastNameTextBox.Location = New System.Drawing.Point(152, 110)
+        Me.LastNameTextBox.MaxLength = 45
+        Me.LastNameTextBox.Name = "LastNameTextBox"
+        Me.LastNameTextBox.Size = New System.Drawing.Size(145, 23)
+        Me.LastNameTextBox.TabIndex = 155
+        '
+        'Label5
+        '
+        Me.Label5.AutoSize = True
+        Me.Label5.BackColor = System.Drawing.Color.Transparent
+        Me.Label5.Location = New System.Drawing.Point(68, 116)
+        Me.Label5.Name = "Label5"
+        Me.Label5.Size = New System.Drawing.Size(66, 15)
+        Me.Label5.TabIndex = 154
+        Me.Label5.Text = "Last Name:"
+        '
+        'FirstNameTextBox
+        '
+        Me.FirstNameTextBox.Location = New System.Drawing.Point(152, 77)
+        Me.FirstNameTextBox.MaxLength = 45
+        Me.FirstNameTextBox.Name = "FirstNameTextBox"
+        Me.FirstNameTextBox.Size = New System.Drawing.Size(147, 23)
+        Me.FirstNameTextBox.TabIndex = 153
+        '
+        'Label10
+        '
+        Me.Label10.AutoSize = True
+        Me.Label10.BackColor = System.Drawing.Color.Transparent
+        Me.Label10.Location = New System.Drawing.Point(67, 81)
+        Me.Label10.Name = "Label10"
+        Me.Label10.Size = New System.Drawing.Size(67, 15)
+        Me.Label10.TabIndex = 152
+        Me.Label10.Text = "First Name:"
+        '
+        'Label15
+        '
+        Me.Label15.AutoSize = True
+        Me.Label15.BackColor = System.Drawing.Color.Transparent
+        Me.Label15.ForeColor = System.Drawing.Color.Red
+        Me.Label15.Location = New System.Drawing.Point(410, 323)
+        Me.Label15.Name = "Label15"
+        Me.Label15.Size = New System.Drawing.Size(12, 15)
+        Me.Label15.TabIndex = 204
+        Me.Label15.Text = "*"
+        '
+        'Label30
+        '
+        Me.Label30.AutoSize = True
+        Me.Label30.BackColor = System.Drawing.Color.Transparent
+        Me.Label30.ForeColor = System.Drawing.Color.Red
+        Me.Label30.Location = New System.Drawing.Point(290, 296)
+        Me.Label30.Name = "Label30"
+        Me.Label30.Size = New System.Drawing.Size(12, 15)
+        Me.Label30.TabIndex = 205
+        Me.Label30.Text = "*"
+        '
+        'Label31
+        '
+        Me.Label31.AutoSize = True
+        Me.Label31.BackColor = System.Drawing.Color.Transparent
+        Me.Label31.ForeColor = System.Drawing.Color.Red
+        Me.Label31.Location = New System.Drawing.Point(658, 265)
+        Me.Label31.Name = "Label31"
+        Me.Label31.Size = New System.Drawing.Size(12, 15)
+        Me.Label31.TabIndex = 206
+        Me.Label31.Text = "*"
+        '
+        'Label35
+        '
+        Me.Label35.AutoSize = True
+        Me.Label35.BackColor = System.Drawing.Color.Transparent
+        Me.Label35.ForeColor = System.Drawing.Color.Red
+        Me.Label35.Location = New System.Drawing.Point(658, 231)
+        Me.Label35.Name = "Label35"
+        Me.Label35.Size = New System.Drawing.Size(12, 15)
+        Me.Label35.TabIndex = 207
+        Me.Label35.Text = "*"
+        '
+        'Label36
+        '
+        Me.Label36.AutoSize = True
+        Me.Label36.BackColor = System.Drawing.Color.Transparent
+        Me.Label36.ForeColor = System.Drawing.Color.Red
+        Me.Label36.Location = New System.Drawing.Point(657, 200)
+        Me.Label36.Name = "Label36"
+        Me.Label36.Size = New System.Drawing.Size(12, 15)
+        Me.Label36.TabIndex = 208
+        Me.Label36.Text = "*"
+        '
+        'Label37
+        '
+        Me.Label37.AutoSize = True
+        Me.Label37.BackColor = System.Drawing.Color.Transparent
+        Me.Label37.ForeColor = System.Drawing.Color.Red
+        Me.Label37.Location = New System.Drawing.Point(732, 39)
+        Me.Label37.Name = "Label37"
+        Me.Label37.Size = New System.Drawing.Size(12, 15)
+        Me.Label37.TabIndex = 209
+        Me.Label37.Text = "*"
+        '
+        'Label38
+        '
+        Me.Label38.AutoSize = True
+        Me.Label38.BackColor = System.Drawing.Color.Transparent
+        Me.Label38.ForeColor = System.Drawing.Color.Red
+        Me.Label38.Location = New System.Drawing.Point(612, 291)
+        Me.Label38.Name = "Label38"
+        Me.Label38.Size = New System.Drawing.Size(12, 15)
+        Me.Label38.TabIndex = 210
+        Me.Label38.Text = "*"
+        '
+        'Label39
+        '
+        Me.Label39.AutoSize = True
+        Me.Label39.BackColor = System.Drawing.Color.Transparent
+        Me.Label39.ForeColor = System.Drawing.Color.Red
+        Me.Label39.Location = New System.Drawing.Point(214, 46)
+        Me.Label39.Name = "Label39"
+        Me.Label39.Size = New System.Drawing.Size(12, 15)
+        Me.Label39.TabIndex = 211
+        Me.Label39.Text = "*"
+        '
+        'Label25
+        '
+        Me.Label25.AutoSize = True
+        Me.Label25.BackColor = System.Drawing.Color.Transparent
+        Me.Label25.Location = New System.Drawing.Point(430, 378)
+        Me.Label25.Name = "Label25"
+        Me.Label25.Size = New System.Drawing.Size(70, 15)
+        Me.Label25.TabIndex = 188
+        Me.Label25.Text = "Created On:"
+        '
+        'CreatedOnDateTimePicker
+        '
+        Me.CreatedOnDateTimePicker.Enabled = False
+        Me.CreatedOnDateTimePicker.Location = New System.Drawing.Point(520, 372)
+        Me.CreatedOnDateTimePicker.Name = "CreatedOnDateTimePicker"
+        Me.CreatedOnDateTimePicker.Size = New System.Drawing.Size(218, 23)
+        Me.CreatedOnDateTimePicker.TabIndex = 189
+        '
+        'Label26
+        '
+        Me.Label26.AutoSize = True
+        Me.Label26.BackColor = System.Drawing.Color.Transparent
+        Me.Label26.Location = New System.Drawing.Point(437, 333)
+        Me.Label26.Name = "Label26"
+        Me.Label26.Size = New System.Drawing.Size(67, 15)
+        Me.Label26.TabIndex = 191
+        Me.Label26.Text = "Created By:"
+        '
+        'CreatedByTextBox
+        '
+        Me.CreatedByTextBox.Enabled = False
+        Me.CreatedByTextBox.Location = New System.Drawing.Point(521, 330)
+        Me.CreatedByTextBox.MaxLength = 50
+        Me.CreatedByTextBox.Name = "CreatedByTextBox"
+        Me.CreatedByTextBox.Size = New System.Drawing.Size(150, 23)
+        Me.CreatedByTextBox.TabIndex = 190
+        '
+        'Label28
+        '
+        Me.Label28.AutoSize = True
+        Me.Label28.BackColor = System.Drawing.Color.Transparent
+        Me.Label28.Location = New System.Drawing.Point(17, 338)
+        Me.Label28.Name = "Label28"
+        Me.Label28.Size = New System.Drawing.Size(113, 15)
+        Me.Label28.TabIndex = 212
+        Me.Label28.Text = "Medical Conditions:"
+        '
+        'ExistingPatientForm
+        '
+        Me.AutoScaleDimensions = New System.Drawing.SizeF(7.0!, 15.0!)
+        Me.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font
+        Me.BackgroundImageLayout = System.Windows.Forms.ImageLayout.Stretch
+        Me.ClientSize = New System.Drawing.Size(748, 529)
+        Me.Controls.Add(Me.Label28)
+        Me.Controls.Add(Me.Label39)
+        Me.Controls.Add(Me.Label38)
+        Me.Controls.Add(Me.Label37)
+        Me.Controls.Add(Me.Label36)
+        Me.Controls.Add(Me.Label35)
+        Me.Controls.Add(Me.Label31)
+        Me.Controls.Add(Me.Label30)
+        Me.Controls.Add(Me.Label15)
+        Me.Controls.Add(Me.Label34)
+        Me.Controls.Add(Me.Label33)
+        Me.Controls.Add(Me.Label32)
+        Me.Controls.Add(Me.Label1)
+        Me.Controls.Add(Me.GenderComboBox)
+        Me.Controls.Add(Me.BloodGroupComboBox)
+        Me.Controls.Add(Me.Label29)
+        Me.Controls.Add(Me.SocialHabitsTextBox)
+        Me.Controls.Add(Me.Label27)
+        Me.Controls.Add(Me.UpdatedByTextBox)
+        Me.Controls.Add(Me.Label26)
+        Me.Controls.Add(Me.CreatedByTextBox)
+        Me.Controls.Add(Me.CreatedOnDateTimePicker)
+        Me.Controls.Add(Me.Label25)
+        Me.Controls.Add(Me.Label24)
+        Me.Controls.Add(Me.PastSurgeriesTextBox)
+        Me.Controls.Add(Me.Label23)
+        Me.Controls.Add(Me.AllergiesTextBox)
+        Me.Controls.Add(Me.DOBDateTimePicker)
+        Me.Controls.Add(Me.Label21)
+        Me.Controls.Add(Me.Label20)
+        Me.Controls.Add(Me.Label19)
+        Me.Controls.Add(Me.Label18)
+        Me.Controls.Add(Me.Label17)
+        Me.Controls.Add(Me.Label12)
+        Me.Controls.Add(Me.PincodeTextbox)
+        Me.Controls.Add(Me.AddressLine2TextBox)
+        Me.Controls.Add(Me.CurrentMedicationTextbox)
+        Me.Controls.Add(Me.Label16)
+        Me.Controls.Add(Me.Label13)
+        Me.Controls.Add(Me.OccupationTextBox)
+        Me.Controls.Add(Me.Label14)
+        Me.Controls.Add(Me.Label11)
+        Me.Controls.Add(Me.DistrictTextBox)
+        Me.Controls.Add(Me.StateTextBox)
+        Me.Controls.Add(Me.Label9)
+        Me.Controls.Add(Me.CityTextBox)
+        Me.Controls.Add(Me.Label8)
+        Me.Controls.Add(Me.PreviousMedicalConditionsTextBox)
+        Me.Controls.Add(Me.Label6)
+        Me.Controls.Add(Me.AddressLine1TextBox)
+        Me.Controls.Add(Me.Label4)
+        Me.Controls.Add(Me.Label2)
+        Me.Controls.Add(Me.Label3)
+        Me.Controls.Add(Me.PhoneTextBox)
+        Me.Controls.Add(Me.Label7)
+        Me.Controls.Add(Me.LastNameTextBox)
+        Me.Controls.Add(Me.Label5)
+        Me.Controls.Add(Me.FirstNameTextBox)
+        Me.Controls.Add(Me.Label10)
+        Me.Controls.Add(Me.PatientIDTextBox)
+        Me.Controls.Add(Me.Label22)
+        Me.Controls.Add(Me.CancelButton)
+        Me.Controls.Add(Me.EditButton)
+        Me.Margin = New System.Windows.Forms.Padding(3, 2, 3, 2)
+        Me.MaximizeBox = False
+        Me.MinimizeBox = False
+        Me.Name = "ExistingPatientForm"
+        Me.Text = "ExistingPatientForm"
+        Me.ResumeLayout(False)
+        Me.PerformLayout()
+
+    End Sub
+    Friend WithEvents CancelButton As Button
+    Friend WithEvents EditButton As Button
+    Friend WithEvents PatientIDTextBox As TextBox
+    Friend WithEvents Label22 As Label
+    Friend WithEvents Label34 As Label
+    Friend WithEvents Label33 As Label
+    Friend WithEvents Label32 As Label
+    Friend WithEvents Label1 As Label
+    Friend WithEvents GenderComboBox As ComboBox
+    Friend WithEvents BloodGroupComboBox As ComboBox
+    Friend WithEvents Label29 As Label
+    Friend WithEvents SocialHabitsTextBox As TextBox
+    Friend WithEvents Label27 As Label
+    Friend WithEvents UpdatedByTextBox As TextBox
+    Friend WithEvents Label24 As Label
+    Friend WithEvents PastSurgeriesTextBox As TextBox
+    Friend WithEvents Label23 As Label
+    Friend WithEvents AllergiesTextBox As TextBox
+    Friend WithEvents DOBDateTimePicker As DateTimePicker
+    Friend WithEvents Label21 As Label
+    Friend WithEvents Label20 As Label
+    Friend WithEvents Label19 As Label
+    Friend WithEvents Label18 As Label
+    Friend WithEvents Label17 As Label
+    Friend WithEvents Label12 As Label
+    Friend WithEvents PincodeTextbox As TextBox
+    Friend WithEvents AddressLine2TextBox As TextBox
+    Friend WithEvents CurrentMedicationTextbox As TextBox
+    Friend WithEvents Label16 As Label
+    Friend WithEvents Label13 As Label
+    Friend WithEvents OccupationTextBox As TextBox
+    Friend WithEvents Label14 As Label
+    Friend WithEvents Label11 As Label
+    Friend WithEvents DistrictTextBox As TextBox
+    Friend WithEvents StateTextBox As TextBox
+    Friend WithEvents Label9 As Label
+    Friend WithEvents CityTextBox As TextBox
+    Friend WithEvents Label8 As Label
+    Friend WithEvents PreviousMedicalConditionsTextBox As TextBox
+    Friend WithEvents Label6 As Label
+    Friend WithEvents AddressLine1TextBox As TextBox
+    Friend WithEvents Label4 As Label
+    Friend WithEvents Label2 As Label
+    Friend WithEvents Label3 As Label
+    Friend WithEvents PhoneTextBox As TextBox
+    Friend WithEvents Label7 As Label
+    Friend WithEvents LastNameTextBox As TextBox
+    Friend WithEvents Label5 As Label
+    Friend WithEvents FirstNameTextBox As TextBox
+    Friend WithEvents Label10 As Label
+    Friend WithEvents Label15 As Label
+    Friend WithEvents Label30 As Label
+    Friend WithEvents Label31 As Label
+    Friend WithEvents Label35 As Label
+    Friend WithEvents Label36 As Label
+    Friend WithEvents Label37 As Label
+    Friend WithEvents Label38 As Label
+    Friend WithEvents Label39 As Label
+    Friend WithEvents Label25 As Label
+    Friend WithEvents CreatedOnDateTimePicker As DateTimePicker
+    Friend WithEvents Label26 As Label
+    Friend WithEvents CreatedByTextBox As TextBox
+    Friend WithEvents Label28 As Label
+End Class 
