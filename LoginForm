@@ -1,0 +1,123 @@
+Code
+
+LoginForm.vb
+
+  Public Class UserLoginForm
+    Private DB As New DBAccessClass
+    'Private Sub LoginForm_Closing(sender As Object, e As CancelEventArgs) Handles Me.Closing
+
+    '    UserNameTextBox.Clear()
+    '    PasswordTextBox.Clear()
+
+    'End Sub
+
+    Private Sub SigninButton_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles SigninButton.Click
+
+        If String.IsNullOrWhiteSpace(UserNameTextBox.Text) Then
+            MessageBox.Show("UserName can not be empty.")
+            UserNameTextBox.SelectAll()
+            UserNameTextBox.Focus()
+            Exit Sub
+        End If
+
+        If String.IsNullOrWhiteSpace(PasswordTextBox.Text) Then
+            MessageBox.Show("Password can not be empty.")
+            PasswordTextBox.SelectAll()
+            PasswordTextBox.Focus()
+            Exit Sub
+        End If
+
+        DB.AddParam("@username", UserNameTextBox.Text)
+        DB.AddParam("@password", PasswordTextBox.Text)
+        DB.ExecuteQuery("SELECT * FROM Employee WHERE Username = ? AND Password = ?")
+        If DB.Exception <> String.Empty Then
+            MessageBox.Show("DB Error: " & DB.Exception)
+            Exit Sub
+        End If
+
+        If DB.RecordCount > 0 Then
+            'user has a match, can be logged in
+            'clear username and password entered to secure the system.
+
+
+            'hide the login form from user afer login.
+            'in the next form load event, it will close the login form completely.
+            Me.Hide()
+            'store_id is just a representative field for user type or role. we use
+            'store_id here To process staff who belongs To different store.
+
+            EIDLabel.Text = DB.DBDataTable(0)("E_ID")
+            RoleLabel.Text = DB.DBDataTable(0)!Role
+            If DB.DBDataTable(0)!Role = "Admin" Then
+                HomeForm.ShowDialog()
+
+
+            ElseIf DB.DBDataTable(0)!Role = "Doctor" Then
+                HomeForm.ReportButton.Visible = False
+                HomeForm.EmployeeButton.Visible = False
+                HomeForm.PatientButton.Visible = False
+                HomeForm.ShowDialog()
+
+            ElseIf DB.DBDataTable(0)!Role = "Receptionist" Then
+                HomeForm.ReportButton.Visible = False
+                HomeForm.EmployeeButton.Visible = False
+                HomeForm.ShowDialog()
+            End If
+
+        Else
+            'DB.RecordCount = 0, no UserName and Password match with the login
+            'credentials
+            MessageBox.Show("Username and Password mismatch.")
+            UserNameTextBox.SelectAll()
+            UserNameTextBox.Focus()
+            Exit Sub
+        End If
+
+        UserNameTextBox.Clear()
+        PasswordTextBox.Clear()
+
+    End Sub
+    Private Sub Cancel_Click(ByVal sender As System.Object, ByVal e As System.EventArgs) Handles CancelButton.Click
+        Me.Close()
+    End Sub
+
+End Class              
+                
+
+        
+
+MainForm.vb
+Public Class HomeForm
+    Private DB As New DBAccessClass
+
+    Dim ActionIdentifier As String
+    Private Sub InstgramPictureBox_Click(sender As Object, e As EventArgs) Handles InstgramPictureBox.Click
+        Process.Start("https://www.instagram.com/gghindia2022/")
+    End Sub
+
+    Private Sub FacebookPictureBox_Click(sender As Object, e As EventArgs) Handles FacebookPictureBox.Click
+        Process.Start("https://www.facebook.com/gghindia")
+    End Sub
+    Private Sub LogoutLabel_Click(sender As Object, e As EventArgs) Handles LogoutButton.Click
+        Me.Close()
+        UserLoginForm.UserNameTextBox.Clear()
+        UserLoginForm.PasswordTextBox.Clear()
+        UserLoginForm.ShowDialog()
+    End Sub
+
+    Private Sub AppointmentButton_Click(sender As Object, e As EventArgs) Handles AppointmentButton.Click
+        AppointmentForm.ShowDialog()
+    End Sub
+
+    Private Sub ReportButton_Click(sender As Object, e As EventArgs) Handles ReportButton.Click
+        Report.ShowDialog()
+    End Sub
+
+    Private Sub EmployeeButton_Click(sender As Object, e As EventArgs) Handles EmployeeButton.Click
+        EmployeeForm.ShowDialog()
+    End Sub
+
+    Private Sub PatientButton_Click(sender As Object, e As EventArgs) Handles PatientButton.Click
+        PatientsForm.ShowDialog()
+    End Sub
+End Class
